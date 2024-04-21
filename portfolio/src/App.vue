@@ -1,75 +1,18 @@
 <script setup>
-
+  import Switch from './components/buttons/Switch.vue';
+  import './components/css/general.css';
 </script>
 
 <template>
-  
+
+  <div>
+    <Switch></Switch>
+  </div>
+
 </template>
 
 <style scoped>
-  :root {
-    /** General colors **/
-    --general-background-light: #FDFDFD;
-    --general-background-dark: #0F2B56;
-
-    --general-info-light: #3498DB;
-    --general-info-dark: 87D2F6;
-
-    --general-success-light: #00B24B;
-    --general-success-dark: #95E1AD;
-
-    --general-warning-light: #FF4400;
-    --general-warning-dark: #FFA88A;
-
-    --general-error-light: #EE2244;
-    --general-error-dark: #F298A2;
-
-    --general_help_light: #B200BF;
-    --general_help_dark: #F7BAF7;
-
-    --general-primary-light: #0E6700;
-    --general-primary-dark: #54C454;
-
-    --general-secondary-light: #FFA500;
-    --general-secondary-dark: #FFA500;
-
-    --general-neutral-900-light: #202020;
-    --general-neutral-900-dark: #FDFDFD;
-
-    --general-neutral-600-light: #747474;
-    --general-neutral-600-dark: #747474;
-
-    --general-neutral-300-light: #DFDFDF;
-    --general-neutral-300-dark: #DFDFDF;
-
-    --general-neutral-black-light: #202020;
-    --general-neutral-black-dark: #202020;
-
-    --general-neutral-white-light: #FDFDFD;
-    --general-neutral-white-dark: #FDFDFD;
-
-    --general-primary-hover-20-light: rgba(14, 103, 0, 0.2);
-    --general-primary-hover-20-dark: rgba(14, 103, 0, 0.2);
-
-    --general-secondary-hover-60-light: rgba(255, 165, 0, 0.6);
-    --general-secondary-hover-60-dark: #FFC458;
-
-    --general-secondary-hover-20-light: rgba(255, 165, 0, 0.2);
-    --general-secondary-hover-20-dark: rgba(255, 165, 0, 0.2);
-
-    /** Typography fonts **/
-    --font-family-primary: 'Audiowide';
-    --font-family-secondary: 'Anta';
-    --font-family-bodybold: "Roboto Slab" normal 600 / normal;
-    --font-family-body: "Roboto Slab" normal 500 / normal;
-
-    /** Typography scale **/
-    font-size: 62.5%;
-
-    --font-scale-8: 0.8rem;
-    --font-scale-13: 1.3rem;
-    --font-scale-21: 2.1rem;
-    --font-scale-34: 3.4rem;
-    --font-scale-55: 5.5rem;
+  html {
+    background-color: red;
   }
 </style>
