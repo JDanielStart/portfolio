@@ -29,11 +29,11 @@
 
     // General method
     const onDarkMode = () => {
-        isDark = !isDark.value;
+        isDark.value = !isDark.value;
     };
 
     const onDisabledState = () => {
-        isDisabled = !isDisabled.value;
+        isDisabled.value = !isDisabled.value;
     };
 
     // Specific method
