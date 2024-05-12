@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Roboto+Slab&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anta&family=Audiowide&family=Roboto+Slab&display=swap');
+
 :root {
     /** General colors **/
     --general-background-light: #FDFDFD;
@@ -51,15 +56,18 @@
     /** Typography fonts **/
     --font-family-primary: 'Audiowide';
     --font-family-secondary: 'Anta';
-    --font-family-bodybold: "Roboto Slab" normal 600 / normal;
-    --font-family-body: "Roboto Slab" normal 500 / normal;
+    --font-family-body: "Roboto Slab";
+
+    /** Typography weight **/
+    --font-weight-600: 600;
+    --font-weight-500: 500;
 
     /** Typography scale **/
     font-size: 62.5%;
 
-    --font-scale-8: 0.8rem;
-    --font-scale-13: 1.3rem;
-    --font-scale-21: 2.1rem;
-    --font-scale-34: 3.4rem;
-    --font-scale-55: 5.5rem;
+    --font-size-8: 0.8rem;
+    --font-size-13: 1.3rem;
+    --font-size-21: 2.1rem;
+    --font-size-34: 3.4rem;
+    --font-size-55: 5.5rem;
   }
