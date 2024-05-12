@@ -113,22 +113,22 @@
     /* Component style */
     .shape {
         display: flex;
-        width: 46px;
-        height: 24px;
-        padding: 0px 2px;
+        width: 4.6rem;
+        height: 2.4rem;
+        padding: 0 0.2rem;
         align-items: center;
-        border-radius: 50px;
+        border-radius: 5rem;
         cursor: pointer;
     }
     .circle {
         display: flex;
-        width: 20px;
-        height: 20px;
+        width: 2rem;
+        height: 2rem;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         flex-shrink: 0;
-        border-radius: 200px;
+        border-radius: 20rem;
     }
     .icon {
         background-size: cover;
@@ -141,7 +141,6 @@
     }
 
     /* Colors light component */
-
     .primary-color-light {
         background-color: var(--general-neutral-900-light);
     }
