@@ -32,7 +32,7 @@
         isDark.value = !isDark.value;
     };
 
-    const onDisabledState = () => {
+    const onDisabled = () => {
         isDisabled.value = !isDisabled.value;
     };
 
@@ -103,7 +103,9 @@
     });
 
     const toggleSwitch = () => {
-        isRight.value = !isRight.value;
+        if (!isDisabled.value) {
+            isRight.value = !isRight.value;
+        }
     }
 
 </script>
