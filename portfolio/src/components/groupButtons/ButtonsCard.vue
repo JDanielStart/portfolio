@@ -6,9 +6,9 @@
 </script>
 
 <template>
-    <div>
+    <div class="buttonGroup">
+        <ButtonCardWhiteBoard></ButtonCardWhiteBoard>
         <ButtonCardFigma></buttonCardFigma>
-        <ButtonCardWhiteboard></buttonCardWhiteboard>
         <ButtonCardGithub></buttonCardGithub>
     </div>
 </template>
