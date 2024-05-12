@@ -118,7 +118,7 @@
     }
 
     .img-primary-color-light {
-        filter: invert(5%) sepia(2%) saturate(21%) hue-rotate(329deg) brightness(98%) contrast(82%);
+        filter: brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(7500%) hue-rotate(0deg);
     }
 
 
@@ -132,7 +132,7 @@
     }
 
     .img-primary-color-dark {
-        filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(347deg) brightness(102%) contrast(102%);
+        filter: brightness(0) saturate(100%) invert(100%);
     }
 
     /* Colors states */
@@ -142,6 +142,6 @@
     }
 
     .img-disabled {
-        filter: invert(100%) saturate(0%) brightness(10000%);
+        filter: brightness(0) saturate(100%) invert(100%);
     }
 </style>
