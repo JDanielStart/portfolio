@@ -63,9 +63,6 @@
     const stateImg = computed(() => {
         const classesImg = {};
 
-        // predefined classes
-        classesImg['icon'] = true;
-
         // states classes
         if (!isDisabled.value) {
             isDark.value ?
