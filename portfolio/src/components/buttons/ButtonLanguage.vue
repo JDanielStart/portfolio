@@ -70,7 +70,6 @@
 
     const clickButton = () => {
         click();
-        toggleDarkMode();
     };
 </script>
 
