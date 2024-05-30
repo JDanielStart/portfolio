@@ -3,87 +3,74 @@
         :class="stateButton"
         @click="clickButton"
     >
-        <slot>
-        </slot>
-        <img
-            :class="stateImg"
-            :src='imageSrc'
+        {{ text }}
+        <icon
+            :iconStore="storeIcon"
         >
+            <arrowDown/>
+        </icon>
     </div>
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue';
-    import '../css/general.css';
+    import { useButtonLanguageStore } from '../../stores/ButtonLanguageStore.js';
+    import { useIconStore } from '../../stores/IconStore.js';
+    import { computed, reactive, provide } from 'vue';
+    import { storeToRefs } from 'pinia';
 
-    import arrowDown from '../../assets/arrow-down.svg';
+    import icon from '../icons/Icon.vue';
+    import arrowDown from '../../assets/icons/ArrowDown.vue';
 
-    // General state
-    const isDark = ref(false);
-    const isDisabled = ref(false);
+    //Stores
+    const store = useButtonLanguageStore();
+    const storeIcon = useIconStore();
 
-    // General method
-    const onDarkMode = () => {
-        isDark.value = !isDark.value;
-    };
+    //Provides
+    provide('store', storeIcon);
 
-    const onDisabled = () => {
-        isDisabled.value = !isDisabled.value;
-    };
+    //States
+    const { text, isDark, isDisabled} = storeToRefs(store);
 
-    // Specific method
+    //Actions
+    const { click, toggleDarkMode } = reactive(store);
+
+    //Change styles
     const stateButton = computed(() => {
         const classesButton = {};
 
-        // predefined classes
         classesButton['shape'] = true;
         classesButton['style-text'] = true;
 
-        // states classes
+        //If disabled is true, dont change styles
         if (!isDisabled.value) {
             if (isDark.value) {
-                classesButton['primary-color-dark'] = isDark.value;
-                classesButton['text-color-dark'] = isDark.value;
+                classesButton['color-shape-dark'] = isDark.value;
+                classesButton['color-text-dark'] = isDark.value;
+
+                //Change style child component
+                storeIcon.setIconColor('var(--general-neutral-900-dark)');
             }
             else {
-                classesButton['primary-color-light'] = !isDark.value;
-                classesButton['text-color-light'] = !isDark.value;
+                classesButton['color-shape-light'] = !isDark.value;
+                classesButton['color-text-light'] = !isDark.value;
+
+                //Change style child component
+                storeIcon.setIconColor('var(--general-neutral-900-light)');
             }
         }
         else {
             classesButton['disabled'] = isDisabled.value;
+
+            //Change style child component
+            storeIcon.setIconColor('var(--general-neutral-white-light)');
         }
 
         return classesButton;
     });
 
-    const stateImg = computed(() => {
-        const classesImg = {};
-
-        // predefined classes
-        classesImg['icon'] = true;
-
-        // states classes
-        if (!isDisabled.value) {
-            isDark.value ?
-            classesImg['img-primary-color-dark'] = isDark.value :
-            classesImg['img-primary-color-light'] = !isDark.value;
-        }
-        else {
-            classesImg['img-disabled'] = isDisabled.value;
-        }
-
-        return classesImg;
-    });
-
-    const imageSrc = computed(() => {
-        return arrowDown;
-    });
-
     const clickButton = () => {
-        if (!isDisabled.value) {
-            console.log('Button clicked');
-        }
+        click();
+        toggleDarkMode();
     };
 </script>
 
@@ -96,6 +83,7 @@
         align-items: center;
         border-radius: 10rem;
         cursor: pointer;
+        user-select: none;
     }
 
     .style-text {
@@ -109,39 +97,27 @@
 
 
     /* Colors light component */
-    .primary-color-light {
+    .color-shape-light {
         background-color: var(--general-background-light);
     }
 
-    .text-color-light {
+    .color-text-light {
         color: var(--general-neutral-900-light);
-    }
-
-    .img-primary-color-light {
-        filter: brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(7500%) hue-rotate(0deg);
     }
 
 
     /* Colors dark component */
-    .primary-color-dark {
+    .color-shape-dark {
         background-color: var(--general-background-dark);
     }
 
-    .text-color-dark {
+    .color-text-dark {
         color: var(--general-neutral-900-dark);
-    }
-
-    .img-primary-color-dark {
-        filter: brightness(0) saturate(100%) invert(100%);
     }
 
     /* Colors states */
     .disabled {
         background-color: var(--general-neutral-300-light);
         color: var(--general-neutral-white-light);
-    }
-
-    .img-disabled {
-        filter: brightness(0) saturate(100%) invert(100%);
     }
 </style>
