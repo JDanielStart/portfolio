@@ -3,45 +3,41 @@
         :class="stateButton"
         @click="clickButton"
     >
-        <slot>
-        </slot>
+        {{ text }}
     </div>
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue';
-    import '../css/general.css';
+    import { useButtonRoundFillStore } from '../../stores/ButtonRoundFillStore.js';
+    import { computed, reactive } from 'vue';
+    import { storeToRefs } from 'pinia';
 
-    // General state
-    const isDark = ref(false);
-    const isDisabled = ref(false);
+    //Stores
+    const store = useButtonRoundFillStore();
 
-    // General method
-    const onDarkMode = () => {
-        isDark.value = !isDark.value;
-    };
+    //States
+    const { text, isDark, isDisabled} = storeToRefs(store);
 
-    const onDisabled = () => {
-        isDisabled.value = !isDisabled.value;
-    };
+    //Actions
+    const { click } = reactive(store);
 
-    // Specific method
+    //Change styles
     const stateButton = computed(() => {
         const classesButton = {};
 
-        // predefined classes
         classesButton['shape'] = true;
         classesButton['style-text'] = true;
 
-        // states classes
+        //If disabled is true, dont change styles
         if (!isDisabled.value) {
             if (isDark.value) {
-                classesButton['primary-color-dark'] = isDark.value;
-                classesButton['text-color-dark'] = isDark.value;
+                classesButton['color-shape-dark'] = isDark.value;
+                classesButton['color-text-dark'] = isDark.value;
+                
             }
             else {
-                classesButton['primary-color-light'] = !isDark.value;
-                classesButton['text-color-light'] = !isDark.value;
+                classesButton['color-shape-light'] = !isDark.value;
+                classesButton['color-text-light'] = !isDark.value;
             }
         }
         else {
@@ -52,9 +48,7 @@
     });
 
     const clickButton = () => {
-        if (!isDisabled.value) {
-            console.log('Button clicked');
-        }
+        click();
     };
 </script>
 
@@ -67,6 +61,7 @@
         align-items: center;
         border-radius: 5rem;
         cursor: pointer;
+        user-select: none;
     }
 
     .style-text {
@@ -77,25 +72,21 @@
         font-size: var(--font-size-21);
     }
 
-    /* Component state */
-
-
     /* Colors light component */
-    .primary-color-light {
+    .color-shape-light {
         background-color: var(--general-secondary-light);
     }
 
-    .text-color-light {
+    .color-text-light {
         color: var(--general-background-light);
     }
 
-
     /* Colors dark component */
-    .primary-color-dark {
+    .color-shape-dark {
         background-color: var(--general-secondary-dark);
     }
 
-    .text-color-dark {
+    .color-text-dark {
         color: var(--general-background-dark);
     }
 
