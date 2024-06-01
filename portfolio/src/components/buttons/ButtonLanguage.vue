@@ -5,7 +5,9 @@
     >
         {{ text }}
         <icon
-            :iconStore="storeIcon"
+            :width="width"
+            :height="height"
+            :color="color"
         >
             <arrowDown/>
         </icon>
@@ -13,26 +15,55 @@
 </template>
 
 <script setup>
-    import { useButtonLanguageStore } from '../../stores/ButtonLanguageStore.js';
-    import { useIconStore } from '../../stores/IconStore.js';
-    import { computed, reactive, provide } from 'vue';
     import { storeToRefs } from 'pinia';
+    import { computed, ref, reactive, defineEmits } from 'vue';
+    import { useAppStore } from '../../stores/AppStore.js';
 
     import icon from '../icons/Icon.vue';
     import arrowDown from '../../assets/icons/ArrowDown.vue';
 
     //Stores
-    const store = useButtonLanguageStore();
-    const storeIcon = useIconStore();
+    const appStore = useAppStore();
 
-    //Provides
-    provide('store', storeIcon);
+    //States store
+    const { isDarkMode } = storeToRefs(appStore);
+
+    //Actions store
+    const { getText, changeLanguage } = reactive(appStore);
 
     //States
-    const { text, isDark, isDisabled} = storeToRefs(store);
+    const isDark = computed(() => isDarkMode.value);
+    const text = computed(() => getText('ButtonLanguage'));
+
+    const isDisabled = ref(false);
+
+    //Icon states
+    const width = ref('1.2rem');
+    const height = ref('1.2rem');
+    const color = ref('var(--general-neutral-900-light)');
+
+    //Emits
+    const emit = defineEmits(['click']);
 
     //Actions
-    const { click, toggleDarkMode } = reactive(store);
+    const clickButton = () => {
+        if (!isDisabled.value) {
+            emit('click');
+            console.log('Button clicked');
+            //Test line
+            switch (appStore.languageMode) {
+                case 'fr':
+                    changeLanguage('es');
+                    break;
+                case 'es':
+                    changeLanguage('en');
+                    break;
+                case 'en':
+                    changeLanguage('fr');
+                    break;
+            }
+        }
+    };
 
     //Change styles
     const stateButton = computed(() => {
@@ -47,30 +78,26 @@
                 classesButton['color-shape-dark'] = isDark.value;
                 classesButton['color-text-dark'] = isDark.value;
 
-                //Change style child component
-                storeIcon.setIconColor('var(--general-neutral-900-dark)');
+                //Change style icon component
+                color.value = 'var(--general-neutral-900-dark)';
             }
             else {
                 classesButton['color-shape-light'] = !isDark.value;
                 classesButton['color-text-light'] = !isDark.value;
 
-                //Change style child component
-                storeIcon.setIconColor('var(--general-neutral-900-light)');
+                //Change style icon component
+                color.value = 'var(--general-neutral-900-light)';
             }
         }
         else {
             classesButton['disabled'] = isDisabled.value;
 
-            //Change style child component
-            storeIcon.setIconColor('var(--general-neutral-white-light)');
+            //Change style icon component
+            color.value = 'var(--general-neutral-white-light)';
         }
 
         return classesButton;
     });
-
-    const clickButton = () => {
-        click();
-    };
 </script>
 
 <style scoped>
