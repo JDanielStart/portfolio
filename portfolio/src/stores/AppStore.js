@@ -4,9 +4,29 @@ import { defineStore } from 'pinia'
 export const useAppStore = defineStore('app', () => {
     //States
     const isDarkMode = ref(false);
-    const language = ref('en');
+    const languageMode = ref('en');
 
     //Getters
+    function getText(component, type='none') {
+        const texts = {
+            ButtonRoundFill: {
+                none: {
+                    en: 'CONTACT ME',
+                    es: 'CONTÁCTAME',
+                    fr: 'CONTACTEZ-MOI',
+                },
+            },
+            ButtonLanguage: {
+                none: {
+                    en: 'EN',
+                    es: 'ES',
+                    fr: 'FR',
+                },
+            },
+        };
+    
+        return texts[component]?.[type]?.[languageMode.value];
+    }
 
     //Actions
     const toggleDark = () => {
@@ -14,15 +34,16 @@ export const useAppStore = defineStore('app', () => {
     }
 
     const changeLanguage = (lang) => {
-        language.value = lang;
+        languageMode.value = lang;
     }
 
     return {
         //States
         isDarkMode,
-        language,
+        languageMode,
 
         //Getters
+        getText,
 
         //Actions
         toggleDark,
