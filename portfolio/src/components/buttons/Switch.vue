@@ -1,53 +1,86 @@
 <template>
     <div
         :class="stateSwitch"
-        @click="toggleSwitch"
+        @click="clickButton"
     >
         <div
             :class="stateCircle">
-                <img
-                    :class="stateImg"
-                    :src='imageSrc'
+                <icon
+                    v-show="isRight"
+                    :width="width"
+                    :height="height"
+                    :color="color"
                 >
+                    <SunIcon/>
+                </icon>
+                <icon
+                    v-show="!isRight"
+                    :width="width"
+                    :height="height"
+                    :color="color"
+                >
+                    <MoonIcon/>
+                </icon>
         </div>
     </div>
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue';
-    import '../css/general.css';
+    import { storeToRefs } from 'pinia';
+    import { computed, ref, reactive } from 'vue';
+    import { useAppStore } from '../../stores/AppStore.js';
 
-    import sunIcon from '../../assets/sun.svg';
-    import moonIcon from '../../assets/moon.svg';
+    import icon from '../icons/Icon.vue';
+    import SunIcon from '../../assets/icons/Sun.vue';
+    import MoonIcon from '../../assets/icons/Moon.vue';
 
-    // General state
-    const isDark = ref(false);
+    //Stores
+    const appStore = useAppStore()
+
+    //States store
+    const { isDarkMode } = storeToRefs(appStore);
+
+    //Actions store
+    const { toggleDark } = reactive(appStore);
+
+    //States
+    const isDark = ref(isDarkMode);
     const isDisabled = ref(false);
-    
-    //Specific state
     const isRight = ref(true);
 
-    // General method
-    const onDarkMode = () => {
-        isDark.value = !isDark.value;
+    //Icon states
+    const width = ref('2rem');
+    const height = ref('2rem');
+    const color = ref('var(--general-neutral-900-light)');
+
+    //Actions
+    const click = () => {
+        toggleRight();
+        toggleDark();
     };
 
-    const onDisabled = () => {
-        isDisabled.value = !isDisabled.value;
-    };
+    const toggleRight = () => { isRight.value = !isRight.value; };
 
-    // Specific method
+    //Change styles
     const stateSwitch = computed(() => {
         const classesSwitch = {};
 
-        // predefined classes
         classesSwitch['shape'] = true;
 
-        // states classes
+        //If disabled is true, dont change styles
         if (!isDisabled.value) {
-            isDark.value ?
-            classesSwitch['primary-color-dark'] = isDark.value :
-            classesSwitch['primary-color-light'] = !isDark.value;
+            if (isDark.value) {
+                classesSwitch['color-shape-dark'] = isDark.value;
+
+                //Change style icon component
+                color.value = 'var(--general-neutral-900-dark)';
+            }
+            else {
+                classesSwitch['color-shape-light'] = !isDark.value;
+
+                //Change style icon component
+                color.value = 'var(--general-neutral-900-light)';
+            }
         }
         else {
             classesSwitch['disabled'] = isDisabled.value;
@@ -61,52 +94,28 @@
     const stateCircle = computed(() => {
         const classesCircle = {};
 
-        // predefined classes
         classesCircle['circle'] = true;
 
-        // states classes
+        //If disabled is true, dont change styles
         if (!isDisabled.value) {
-            isDark.value ?
-            classesCircle['secondary-color-dark'] = isDark.value :
-            classesCircle['secondary-color-light'] = !isDark.value;
+            if (isDark.value) {
+                classesCircle['color-circle-dark'] = isDark.value;
+            }
+            else {
+                classesCircle['color-circle-light'] = !isDark.value;
+            }
         }
         else {
-            classesCircle['secondary-color-light'] = isDisabled.value;
+            classesCircle['color-circle-light'] = isDisabled.value;
         }
-        
 
         return classesCircle;
     });
 
-    const stateImg = computed(() => {
-        const classesImg = {};
-
-        // predefined classes
-        classesImg['icon'] = true;
-
-        // states classes
-        if (!isDisabled.value) {
-            isDark.value ?
-            classesImg['img-primary-color-dark'] = isDark.value :
-            classesImg['img-primary-color-light'] = !isDark.value;
-        }
-        else {
-            classesImg['img-disabled'] = isDisabled.value;
-        }
-
-        return classesImg;
-    });
-
-    const imageSrc = computed(() => {
-        return isRight.value ?
-        sunIcon : moonIcon;
-    });
-
-    const toggleSwitch = () => {
-        if (!isDisabled.value) {
-            isRight.value = !isRight.value;
-        }
-    }
+    //Events
+    const clickButton = () => {
+        click();
+    };
 
 </script>
 
@@ -132,10 +141,6 @@
         flex-shrink: 0;
         border-radius: 20rem;
     }
-    .icon {
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
 
     /* Component state */
     .right {
@@ -143,34 +148,23 @@
     }
 
     /* Colors light component */
-    .primary-color-light {
+    .color-shape-light {
         background-color: var(--general-neutral-900-light);
     }
-    .secondary-color-light {
+    .color-circle-light {
         background-color: var(--general-background-light);
     }
 
-    .img-primary-color-light {
-        filter: invert(5%) sepia(2%) saturate(21%) hue-rotate(329deg) brightness(98%) contrast(82%);
-    }
-
     /* Colors dark component */
-    .primary-color-dark {
+    .color-shape-dark {
         background-color: var(--general-neutral-900-dark);
     }
-    .secondary-color-dark {
+    .color-circle-dark {
         background-color: var(--general-background-dark);
-    }
-    .img-primary-color-dark {
-        filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(347deg) brightness(102%) contrast(102%);
     }
 
     /* Colors states */
     .disabled {
         background-color: var(--general-neutral-300-light);
     }
-    .img-disabled {
-        filter: invert(99%) sepia(1%) saturate(91%) hue-rotate(121deg) brightness(119%) contrast(75%);
-    }
-
 </style>
