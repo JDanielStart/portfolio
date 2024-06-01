@@ -8,18 +8,35 @@
 </template>
 
 <script setup>
-    import { useButtonRoundFillStore } from '../../stores/ButtonRoundFillStore.js';
-    import { computed, reactive } from 'vue';
     import { storeToRefs } from 'pinia';
+    import { computed, ref, reactive, defineEmits } from 'vue';
+    import { useAppStore } from '../../stores/AppStore.js';
 
     //Stores
-    const store = useButtonRoundFillStore();
+    const appStore = useAppStore()
+
+    //States store
+    const { isDarkMode } = storeToRefs(appStore);
+
+    //Actions store
+    const { getText } = reactive(appStore);
 
     //States
-    const { text, isDark, isDisabled} = storeToRefs(store);
+    const isDark = computed(() => isDarkMode.value);
+    const text = computed(() => getText('ButtonRoundFill'));
+
+    const isDisabled = ref(false);
+
+    //Emits
+    const emit = defineEmits(['click']);
 
     //Actions
-    const { click } = reactive(store);
+    const clickButton = () => {
+        if (!isDisabled.value) {
+            emit('click');
+            console.log('Button clicked');
+        }
+    };
 
     //Change styles
     const stateButton = computed(() => {
@@ -33,7 +50,6 @@
             if (isDark.value) {
                 classesButton['color-shape-dark'] = isDark.value;
                 classesButton['color-text-dark'] = isDark.value;
-                
             }
             else {
                 classesButton['color-shape-light'] = !isDark.value;
@@ -46,10 +62,6 @@
 
         return classesButton;
     });
-
-    const clickButton = () => {
-        click();
-    };
 </script>
 
 <style scoped>
