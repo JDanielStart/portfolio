@@ -5,22 +5,22 @@
     >
         <div
             :class="stateCircle">
-                <icon
+                <Icon
                     v-show="isRight"
                     :width="width"
                     :height="height"
                     :color="color"
                 >
                     <SunIcon/>
-                </icon>
-                <icon
+                </Icon>
+                <Icon
                     v-show="!isRight"
                     :width="width"
                     :height="height"
                     :color="color"
                 >
                     <MoonIcon/>
-                </icon>
+                </Icon>
         </div>
     </div>
 </template>
@@ -30,7 +30,7 @@
     import { computed, ref, reactive } from 'vue';
     import { useAppStore } from '../../stores/AppStore.js';
 
-    import icon from '../icons/Icon.vue';
+    import Icon from '../icons/Icon.vue';
     import SunIcon from '../../assets/icons/Sun.vue';
     import MoonIcon from '../../assets/icons/Moon.vue';
 
