@@ -9,7 +9,7 @@
             :viewBox="viewBox"
             :color="color"
         >
-            <Html5/>
+            <ChatGPT/>
         </Icon>
         <Icon
             v-show="isSelected"
@@ -30,7 +30,7 @@
 
     import Icon from '../../icons/Icon.vue';
     import X from '../../../assets/icons/X.vue';
-    import Html5 from '../../../assets/icons/Html5.vue';
+    import ChatGPT from '../../../assets/icons/ChatGPT.vue';
 
     //Stores
     const appStore = useAppStore();
@@ -50,7 +50,7 @@
     //Icon states
     const width = ref('2rem');
     const height = ref('2rem');
-    const viewBox = ref('1 0 20 20');
+    const viewBox = ref('-3 -1 45 45');
     const widthX = ref('2rem');
     const heightX = ref('2rem');
     const viewBoxX = ref('-8 -8 24 24');
@@ -79,9 +79,15 @@
         if (!isDisabled.value) {
             if (isDark.value) {
                 classesTag['color-shape-dark'] = isDark.value;
+
+                //Change style icon component
+                color.value = 'var(--general-neutral-black-light)';
             }
             else {
                 classesTag['color-shape-light'] = !isDark.value;
+
+                //Change style icon component
+                color.value = 'var(--general-neutral-white-light)';
             }
         }
         else {
@@ -108,12 +114,12 @@
 
     /* Colors light component */
     .color-shape-light {
-        background-color: #E34C26;
+        background-color: var(--general-neutral-black-light);
     }
 
     /* Colors dark component */
     .color-shape-dark {
-        background-color: #E34C26;
+        background-color: var(--general-neutral-white-light);
     }
 
     /* Colors states */

@@ -9,7 +9,7 @@
             :viewBox="viewBox"
             :color="color"
         >
-            <Html5/>
+            <FastApi/>
         </Icon>
         <Icon
             v-show="isSelected"
@@ -30,7 +30,7 @@
 
     import Icon from '../../icons/Icon.vue';
     import X from '../../../assets/icons/X.vue';
-    import Html5 from '../../../assets/icons/Html5.vue';
+    import FastApi from '../../../assets/icons/FastApi.vue';
 
     //Stores
     const appStore = useAppStore();
@@ -50,7 +50,7 @@
     //Icon states
     const width = ref('2rem');
     const height = ref('2rem');
-    const viewBox = ref('1 0 20 20');
+    const viewBox = ref('-1 0 23 20');
     const widthX = ref('2rem');
     const heightX = ref('2rem');
     const viewBoxX = ref('-8 -8 24 24');
@@ -108,12 +108,12 @@
 
     /* Colors light component */
     .color-shape-light {
-        background-color: #E34C26;
+        background-color: #00665A;
     }
 
     /* Colors dark component */
     .color-shape-dark {
-        background-color: #E34C26;
+        background-color: #00665A;
     }
 
     /* Colors states */
