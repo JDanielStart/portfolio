@@ -7,6 +7,7 @@
         <Icon
             :width="width"
             :height="height"
+            :viewBox="viewBox"
             :color="color"
         >
             <ArrowDown/>
@@ -40,6 +41,7 @@
     //Icon states
     const width = ref('1.2rem');
     const height = ref('1.2rem');
+    const viewBox = ref('0 -2 12 12');
     const color = ref('var(--general-neutral-900-light)');
 
     //Emits
