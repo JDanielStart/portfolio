@@ -4,13 +4,13 @@
         @click="clickButton"
     >
         {{ text }}
-        <icon
+        <Icon
             :width="width"
             :height="height"
             :color="color"
         >
-            <arrowDown/>
-        </icon>
+            <ArrowDown/>
+        </Icon>
     </div>
 </template>
 
@@ -19,8 +19,8 @@
     import { computed, ref, reactive, defineEmits } from 'vue';
     import { useAppStore } from '../../stores/AppStore.js';
 
-    import icon from '../icons/Icon.vue';
-    import arrowDown from '../../assets/icons/ArrowDown.vue';
+    import Icon from '../icons/Icon.vue';
+    import ArrowDown from '../../assets/icons/ArrowDown.vue';
 
     //Stores
     const appStore = useAppStore();
