@@ -9,7 +9,7 @@
     --general-background-dark: #0F2B56;
 
     --general-info-light: #3498DB;
-    --general-info-dark: 87D2F6;
+    --general-info-dark: #87D2F6;
 
     --general-success-light: #00B24B;
     --general-success-dark: #95E1AD;
@@ -20,8 +20,8 @@
     --general-error-light: #EE2244;
     --general-error-dark: #F298A2;
 
-    --general_help_light: #B200BF;
-    --general_help_dark: #F7BAF7;
+    --general-help-light: #B200BF;
+    --general-help-dark: #F7BAF7;
 
     --general-primary-light: #0E6700;
     --general-primary-dark: #54C454;
