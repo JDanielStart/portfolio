@@ -49,7 +49,6 @@
     .shape {
         display: flex;
         justify-content: center;
-        align-self: stretch;
         align-items: flex-start;
         align-content: flex-start;
         gap: 4rem 2.4rem;
@@ -57,12 +56,5 @@
         max-width: 120rem;
         margin: 0 auto;
         width: 100%;
-    }
-
-    @media (max-width: 320px) {
-        .shape {
-            gap: 2rem 1.2rem;
-            padding: 0 2rem;
-        }
     }
 </style>
