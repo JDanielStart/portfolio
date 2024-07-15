@@ -1,104 +1,139 @@
 <template>
     <div
-        :class="stateButton"
+        :style="styles"
+        :class="classes"
         @click="clickButton"
     >
         {{ text }}
-        <Icon
-            :width="width"
-            :height="height"
-            :viewBox="viewBox"
-            :color="color"
-        >
-            <ArrowDown/>
-        </Icon>
+        <Icon :state="{ id: idIcon }" />
     </div>
 </template>
 
 <script setup>
+    //General imports
     import { storeToRefs } from 'pinia';
-    import { computed, ref, reactive, defineEmits } from 'vue';
-    import { useAppStore } from '../../stores/AppStore.js';
+    import { computed, ref, toRefs, onBeforeUnmount, watch } from 'vue';
 
-    import Icon from '../icons/Icon.vue';
-    import ArrowDown from '../../assets/icons/ArrowDown.vue';
+    //Store imports
+    import { useAppStore } from '../../stores/AppStore.js';
+    import { useButtonLanguage } from '../../stores/ButtonLanguageStore.js';
+    import { useIcon } from '../../stores/IconStore.js';
+
+    //Components imports
+    import Icon from '../icons/Icon.vue'
+
+    //Props
+    const props = defineProps({
+        state: {
+            type: Object
+        }
+    });
+
+    const { id } = props.state;
 
     //Stores
     const appStore = useAppStore();
+    const buttonLanguageStore = useButtonLanguage();
+    const iconStore = useIcon();
+
+    //Actions store
+    const { getText } = appStore;
+    const { getButtonLanguage } = buttonLanguageStore;
+    const { createIcon, updateIcon, deleteIcon, getStandardIcon } = iconStore;
 
     //States store
     const { isDarkMode } = storeToRefs(appStore);
 
-    //Actions store
-    const { getText, changeLanguage } = reactive(appStore);
+    const {
+        colorShapeLight: colorShapeLightStore,
+        colorShapeDark: colorShapeDarkStore,
+        colorTextLight: colorTextLightStore,
+        colorTextDark: colorTextDarkStore,
+        isDisabled: isDisabledStore,
+        click: clickStore,
+    } = toRefs(getButtonLanguage(id));
 
     //States
     const isDark = computed(() => isDarkMode.value);
+    
     const text = computed(() => getText('ButtonLanguage'));
+    const colorShapeLight = computed(() => colorShapeLightStore.value);
+    const colorShapeDark = computed(() => colorShapeDarkStore.value);
+    const colorTextLight = computed(() => colorTextLightStore.value);
+    const colorTextDark = computed(() => colorTextDarkStore.value);
+    const isDisabled = computed(() => isDisabledStore.value);
+    const click = computed(() => clickStore.value);
 
-    const isDisabled = ref(false);
+    //Create childrens
+    const idIcon = ref(null);
 
-    //Icon states
-    const width = ref('1.2rem');
-    const height = ref('1.2rem');
-    const viewBox = ref('0 -2 12 12');
-    const color = ref('var(--general-neutral-900-light)');
+    idIcon.value = createIcon({
+        ...getStandardIcon('ArrowDown'),
+        colorLight: colorTextLight.value,
+        colorDark: colorTextDark.value,
+        isDisabled: isDisabled.value,
+        });
 
-    //Emits
-    const emit = defineEmits(['click']);
+    watch([
+        colorTextLight,
+        colorTextDark,
+        isDisabled
+    ], () => {
+        updateIcon(idIcon.value, {
+            colorLight: colorTextLight.value,
+            colorDark: colorTextDark.value,
+            isDisabled: isDisabled.value,
+        });
+    });
+
+    //Delete childrens when component unmounts
+    onBeforeUnmount(() => {
+        if (idIcon.value) {
+            deleteIcon(idIcon.value);
+        }
+    });
 
     //Actions
     const clickButton = () => {
         if (!isDisabled.value) {
-            emit('click');
-            console.log('Button clicked');
-            //Test line
-            switch (appStore.languageMode) {
-                case 'fr':
-                    changeLanguage('es');
-                    break;
-                case 'es':
-                    changeLanguage('en');
-                    break;
-                case 'en':
-                    changeLanguage('fr');
-                    break;
-            }
+            click.value();
         }
     };
 
     //Change styles
-    const stateButton = computed(() => {
-        const classesButton = {};
+    const classes = computed(() => {
+        const classes= {};
 
-        classesButton['shape'] = true;
-        classesButton['style-text'] = true;
+        classes['shape'] = true;
+        classes['style-text'] = true;
 
-        //If disabled is true, dont change styles
+        if (!isDisabled.value) {
+            classes['isClickable'] = true;
+        }
+
+        return classes;
+    });
+
+    const styles = computed(() => {
+        const styles = {};
+
+        // states classes
         if (!isDisabled.value) {
             if (isDark.value) {
-                classesButton['color-shape-dark'] = isDark.value;
-                classesButton['color-text-dark'] = isDark.value;
-
-                //Change style icon component
-                color.value = 'var(--general-neutral-900-dark)';
+                styles.color = colorTextDark.value;
+                styles.backgroundColor = colorShapeDark.value;
             }
             else {
-                classesButton['color-shape-light'] = !isDark.value;
-                classesButton['color-text-light'] = !isDark.value;
-
-                //Change style icon component
-                color.value = 'var(--general-neutral-900-light)';
+                styles.color = colorTextLight.value;
+                styles.backgroundColor = colorShapeLight.value;
             }
         }
         else {
-            classesButton['disabled'] = isDisabled.value;
-
-            //Change style icon component
-            color.value = 'var(--general-neutral-white-light)';
+            styles.color = 'var(--general-neutral-white-light)';
+            styles.backgroundColor = 'var(--general-neutral-300-light)';
         }
 
-        return classesButton;
+        return styles;
     });
 </script>
 
@@ -110,7 +145,6 @@
         justify-content: center;
         align-items: center;
         border-radius: 10rem;
-        cursor: pointer;
         user-select: none;
     }
 
@@ -121,31 +155,7 @@
         font-size: var(--font-size-16);
     }
 
-    /* Component state */
-
-
-    /* Colors light component */
-    .color-shape-light {
-        background-color: var(--general-background-light);
-    }
-
-    .color-text-light {
-        color: var(--general-neutral-900-light);
-    }
-
-
-    /* Colors dark component */
-    .color-shape-dark {
-        background-color: var(--general-background-dark);
-    }
-
-    .color-text-dark {
-        color: var(--general-neutral-900-dark);
-    }
-
-    /* Colors states */
-    .disabled {
-        background-color: var(--general-neutral-300-light);
-        color: var(--general-neutral-white-light);
+    .isClickable {
+        cursor: pointer;
     }
 </style>

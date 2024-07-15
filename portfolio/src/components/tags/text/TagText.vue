@@ -1,95 +1,150 @@
 <template>
     <div
-        :class="stateTag"
+        :style="styles"
+        :class="classes"
         @click="clickTag"
     >
-        {{ textTag }}
-        <img
+        {{ text }}
+        <Icon
+            :state="{ id: idIcon }"
             v-show="isSelected"
-            :class="stateImg"
-            :src='imageSrcX'
-        >
+        />
     </div>
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue';
-    import '../../css/general.css';
+    //General imports
+    import { storeToRefs } from 'pinia';
+    import { computed, ref, toRefs, watch, onBeforeUnmount  } from 'vue';
 
-    import x from '../../../assets/x.svg';
+    //Store imports
+    import { useAppStore } from '../../../stores/AppStore.js';
+    import { useTagText } from '../../../stores/TagTextStore.js';
+    import { useIcon } from '../../../stores/IconStore.js';
 
-    // General state
-    const isDark = ref(false);
-    const isDisabled = ref(false);
+    //Components imports
+    import Icon from '../../icons/Icon.vue';
 
-    // General method
-    const onDarkMode = () => {
-        isDark.value = !isDark.value;
+    //Props
+    const props = defineProps({
+        state: {
+            type: Object
+        },
+    });
+
+    const { id } = props.state;
+
+    //Stores
+    const appStore = useAppStore();
+    const tagTextStore = useTagText();
+    const iconStore = useIcon();
+
+    //Actions store
+    const { getText } = appStore;
+    const { getTagText } = tagTextStore;
+    const { createIcon, updateIcon, deleteIcon, getStandardIcon } = iconStore;
+
+    //States store
+    const { isDarkMode } = storeToRefs(appStore);
+
+    const {
+        name: nameStore,
+        colorShapeLight: colorShapeLightStore,
+        colorShapeDark: colorShapeDarkStore,
+        colorTextLight: colorTextLightStore,
+        colorTextDark: colorTextDarkStore,
+        isSelected: isSelectedStore,
+        isOnlyRead: isOnlyReadStore,
+        isDisabled: isDisabledStore,
+        click: clickStore,
+    } = toRefs(getTagText(id));
+
+    //States
+    const isDark = computed(() => isDarkMode.value);
+
+    const name = computed(() => nameStore.value);
+    const colorShapeLight = computed(() => colorShapeLightStore.value);
+    const colorShapeDark = computed(() => colorShapeDarkStore.value);
+    const colorTextLight = computed(() => colorTextLightStore.value);
+    const colorTextDark = computed(() => colorTextDarkStore.value);
+    const isSelected = computed(() => isSelectedStore.value);
+    const isOnlyRead = computed(() => isOnlyReadStore.value);
+    const isDisabled = computed(() => isDisabledStore.value);
+    const click = computed(() => clickStore.value);
+
+    const text = computed(() => getText('TagText', name.value));
+
+    //Create childrens
+    const idIcon = ref(null);
+
+    idIcon.value = createIcon({
+        ...getStandardIcon('X'),
+        colorLight: colorTextLight.value,
+        colorDark: colorTextDark.value,
+        isDisabled: isDisabled.value,
+    });
+
+    watch([
+        colorTextLight,
+        colorTextDark,
+        isDisabled,
+    ], () => {
+        updateIcon(idIconLeft.value, {
+            colorLight: colorTextLight.value,
+            colorDark: colorTextDark.value,
+            isDisabled: isDisabled.value,
+        });
+    });
+
+    //Delete childrens when component unmounts
+    onBeforeUnmount(() => {
+        if (idIcon.value) {
+            deleteIcon(idIcon.value);
+        }
+    });
+
+    //Actions
+    const clickTag = () => {
+        if (!isDisabled.value && !isOnlyRead.value) {
+            click.value();
+        }
     };
 
-    const onDisabled = () => {
-        isDisabled.value = !isDisabled.value;
-    };
+    //Change styles
+    const classes = computed(() => {
+        const classes= {};
 
-    //Specific state
-    const textTag = ref('Ejemplo');
-    const isSelected = ref(false);
+        classes['shape'] = true;
+        classes['style-text'] = true;
 
-    // Specific method
-    const stateTag = computed(() => {
-        const classesTag = {};
+        if (!isDisabled.value && !isOnlyRead.value) {
+            classes['isClickable'] = true;
+        }
 
-        // predefined classes
-        classesTag['shape'] = true;
-        classesTag['style-text'] = true;
+        return classes;
+    });
+
+    const styles = computed(() => {
+        const styles = {};
 
         // states classes
         if (!isDisabled.value) {
             if (isDark.value) {
-                classesTag['primary-color-dark'] = isDark.value;
-                classesTag['text-color-dark'] = isDark.value;
+                styles.color = colorTextDark.value;
+                styles.backgroundColor = colorShapeDark.value;
             }
             else {
-                classesTag['primary-color-light'] = !isDark.value;
-                classesTag['text-color-light'] = !isDark.value;
+                styles.color = colorTextLight.value;
+                styles.backgroundColor = colorShapeLight.value;
             }
         }
         else {
-            classesTag['disabled'] = isDisabled.value;
+            styles.color = 'var(--general-neutral-white-light)';
+            styles.backgroundColor = 'var(--general-neutral-300-light)';
         }
 
-        return classesTag;
+        return styles;
     });
-
-    const stateImg = computed(() => {
-        const classesImg = {};
-
-        // predefined classes
-        classesImg['icon'] = true;
-
-        // states classes
-        if (!isDisabled.value) {
-            isDark.value ?
-            classesImg['img-primary-color-dark'] = isDark.value :
-            classesImg['img-primary-color-light'] = !isDark.value;
-        }
-        else {
-            classesImg['img-disabled'] = isDisabled.value;
-        }
-
-        return classesImg;
-    });
-
-    const imageSrcX = computed(() => {
-        return x;
-    });
-
-    const clickTag = () => {
-        if (!isDisabled.value) {
-            console.log('Button clicked');
-            isSelected.value = !isSelected.value;
-        }
-    };
 </script>
 
 <style scoped>
@@ -97,15 +152,13 @@
     .shape {
         display: inline-flex;
         padding: 0.1rem 1.2rem;
+        gap: 0.8px;
+        justify-content: center;
         align-items: center;
-        gap: 0.8rem;
         border-radius: 5.0rem;
-        cursor: pointer;
+        user-select: none;
     }
-    .icon {
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
+
     .style-text {
         text-align: center;
         text-transform: uppercase;
@@ -116,42 +169,7 @@
         line-height: 2.4rem;
     }
 
-    /* Component state */
-
-    /* Colors light component */
-    .primary-color-light {
-        background-color: var(--general-secondary-light);
-    }
-
-    .text-color-light {
-        color: var(--general-background-light);
-    }
-
-    .img-primary-color-light {
-        filter: brightness(0) saturate(100%) invert(100%);
-    }
-
-
-    /* Colors dark component */
-    .primary-color-dark {
-        background-color: var(--general-secondary-light);
-    }
-
-    .text-color-dark {
-        color: var(--general-background-dark);
-    }
-
-    .img-primary-color-dark {
-        filter: brightness(0%);
-    }
-
-    /* Colors states */
-    .disabled {
-        background-color: var(--general-neutral-300-light);
-        color: var(--general-neutral-white-light);
-    }
-
-    .img-disabled {
-        filter: brightness(0) saturate(100%) invert(100%);
+    .isClickable {
+        cursor: pointer;
     }
 </style>

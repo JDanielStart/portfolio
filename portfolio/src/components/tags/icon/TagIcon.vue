@@ -2,13 +2,14 @@
     <div
         :style="styles"
         :class="classes"
-        @click="clickButton"
+        @click="clickTag"
     >
         <Icon
             :state="{ id: idIconLeft }"
         />
         <Icon
             :state="{ id: idIconRight }"
+            v-show="isSelected"
         />
     </div>
 </template>
@@ -19,50 +20,56 @@
     import { computed, ref, toRefs, watch, onBeforeUnmount  } from 'vue';
 
     //Store imports
-    import { useAppStore } from '../../stores/AppStore.js';
-    import { useButtonCardWhiteboard } from '../../stores/ButtonCardWhiteboardStore.js';
-    import { useIcon } from '../../stores/IconStore.js';
+    import { useAppStore } from '../../../stores/AppStore.js';
+    import { useTagIcon } from '../../../stores/TagIconStore.js';
+    import { useIcon } from '../../../stores/IconStore.js';
 
     //Components imports
-    import Icon from '../icons/Icon.vue';
+    import Icon from '../../icons/Icon.vue';
 
     //Props
     const props = defineProps({
         state: {
             type: Object
-        }
+        },
     });
-    
+
     const { id } = props.state;
 
     //Stores
     const appStore = useAppStore();
-    const buttonCardWhiteboardStore = useButtonCardWhiteboard();
+    const tagIconStore = useTagIcon();
     const iconStore = useIcon();
 
     //Actions store
-    const { getButtonCardWhiteboard } = buttonCardWhiteboardStore;
+    const { getTagIcon } = tagIconStore;
     const { createIcon, updateIcon, deleteIcon, getStandardIcon } = iconStore;
 
     //States store
     const { isDarkMode } = storeToRefs(appStore);
 
     const {
+        name: nameStore,
         colorShapeLight: colorShapeLightStore,
         colorShapeDark: colorShapeDarkStore,
         colorIconLight: colorIconLightStore,
         colorIconDark: colorIconDarkStore,
+        isSelected: isSelectedStore,
+        isOnlyRead: isOnlyReadStore,
         isDisabled: isDisabledStore,
         click: clickStore,
-    } = toRefs(getButtonCardWhiteboard(id));
+    } = toRefs(getTagIcon(id));
 
     //States
     const isDark = computed(() => isDarkMode.value);
-
+    
+    const name = computed(() => nameStore.value);
     const colorShapeLight = computed(() => colorShapeLightStore.value);
     const colorShapeDark = computed(() => colorShapeDarkStore.value);
     const colorIconLight = computed(() => colorIconLightStore.value);
     const colorIconDark = computed(() => colorIconDarkStore.value);
+    const isSelected = computed(() => isSelectedStore.value);
+    const isOnlyRead = computed(() => isOnlyReadStore.value);
     const isDisabled = computed(() => isDisabledStore.value);
     const click = computed(() => clickStore.value);
 
@@ -70,7 +77,7 @@
     const idIconLeft = ref(null);
 
     idIconLeft.value = createIcon({
-        ...getStandardIcon('Whiteboard'),
+        ...getStandardIcon(name.value),
         colorLight: colorIconLight.value,
         colorDark: colorIconDark.value,
         isDisabled: isDisabled.value,
@@ -91,7 +98,7 @@
     const idIconRight = ref(null);
 
     idIconRight.value = createIcon({
-        ...getStandardIcon('Open'),
+        ...getStandardIcon('X'),
         colorLight: colorIconLight.value,
         colorDark: colorIconDark.value,
         isDisabled: isDisabled.value,
@@ -120,8 +127,8 @@
     });
 
     //Actions
-    const clickButton = () => {
-        if(!isDisabled.value) {
+    const clickTag = () => {
+        if(!isDisabled.value && !isOnlyRead.value) {
             click.value();
         }
     };
@@ -132,7 +139,7 @@
 
         classes['shape'] = true;
 
-        if (!isDisabled.value) {
+        if (!isDisabled.value && !isOnlyRead.value) {
             classes['isClickable'] = true;
         }
 
@@ -162,15 +169,12 @@
 <style scoped>
     /* Component style */
     .shape {
-        display: flex;
-        width: 6.4rem;
-        max-width: 30.12rem;
-        padding: 2rem 1.2rem;
+        display: inline-flex;
+        padding: 0.6rem;
+        gap: 8px;
         justify-content: center;
         align-items: center;
-        gap: 0.8rem;
-        flex: 1 0 0;
-        border-radius: 0rem 0rem 0rem 1rem;
+        border-radius: 5rem;
     }
 
     .isClickable {

@@ -1,122 +1,200 @@
 <template>
     <div
-        :class="stateSwitch"
+        :style="styles"
+        :class="classes"
         @click="clickButton"
     >
         <div
-            :class="stateCircle">
+            :style="circleStyles"
+            :class="circleClasses"
+        >
                 <Icon
+                    :state="{ id: idIconRight }"
                     v-show="isRight"
-                    :width="width"
-                    :height="height"
-                    :color="color"
-                >
-                    <SunIcon/>
-                </Icon>
+                />
                 <Icon
+                    :state="{ id: idIconLeft }"
                     v-show="!isRight"
-                    :width="width"
-                    :height="height"
-                    :color="color"
-                >
-                    <MoonIcon/>
-                </Icon>
+                />
         </div>
     </div>
 </template>
 
 <script setup>
+    //General imports
     import { storeToRefs } from 'pinia';
-    import { computed, ref, reactive } from 'vue';
-    import { useAppStore } from '../../stores/AppStore.js';
+    import { computed, ref, toRefs, watch, onBeforeUnmount } from 'vue';
 
-    import Icon from '../icons/Icon.vue';
-    import SunIcon from '../../assets/icons/Sun.vue';
-    import MoonIcon from '../../assets/icons/Moon.vue';
+    //Store imports
+    import { useAppStore } from '../../stores/AppStore.js';
+    import { useSwitch } from '../../stores/SwitchStore.js';
+    import { useIcon } from '../../stores/IconStore.js';
+
+    //Components imports
+    import Icon from '../icons/Icon.vue'
+
+    //Props
+    const props = defineProps({
+        state: {
+            type: Object
+        }
+    });
+
+    const { id } = props.state;
 
     //Stores
     const appStore = useAppStore()
+    const switchStore = useSwitch();
+    const iconStore = useIcon();
+
+    //Actions store
+    const { getSwitch } = switchStore;
+    const { createIcon, updateIcon, deleteIcon, getStandardIcon } = iconStore;
 
     //States store
     const { isDarkMode } = storeToRefs(appStore);
 
-    //Actions store
-    const { toggleDark } = reactive(appStore);
+    const {
+        colorShapeLight: colorShapeLightStore,
+        colorShapeDark: colorShapeDarkStore,
+        colorCircleLight: colorCircleLightStore,
+        colorCircleDark: colorCircleDarkStore,
+        isDisabled: isDisabledStore,
+        isRight: isRightStore,
+        click: clickStore,
+    } = toRefs(getSwitch(id));
 
     //States
-    const isDark = ref(isDarkMode);
-    const isDisabled = ref(false);
-    const isRight = ref(true);
+    const isDark = computed(() => isDarkMode.value);
 
-    //Icon states
-    const width = ref('2rem');
-    const height = ref('2rem');
-    const color = ref('var(--general-neutral-900-light)');
+    const colorShapeLight = computed(() => colorShapeLightStore.value);
+    const colorShapeDark = computed(() => colorShapeDarkStore.value);
+    const colorCircleLight = computed(() => colorCircleLightStore.value);
+    const colorCircleDark = computed(() => colorCircleDarkStore.value);
+    const isDisabled = computed(() => isDisabledStore.value);
+    const isRight = computed(() => isRightStore.value);
+    const click = computed(() => clickStore.value);
+
+    //Create childrens
+    const idIconRight = ref(null);
+
+    idIconRight.value = createIcon({
+        ...getStandardIcon('Sun'),
+        colorLight: colorShapeLight.value,
+        colorDark: colorShapeDark.value,
+        isDisabled: isDisabled.value,
+    });
+
+    watch([
+        colorShapeLight,
+        colorShapeDark,
+        isDisabled
+    ], () => {
+        updateIcon(idIconRight.value, {
+            colorLight: colorShapeLight.value,
+            colorDark: colorShapeDark.value,
+            isDisabled: isDisabled.value,
+        });
+    });
+
+    const idIconLeft = ref(null);
+
+    idIconLeft.value = createIcon({
+        ...getStandardIcon('Moon'),
+        colorLight: colorShapeLight.value,
+        colorDark: colorShapeDark.value,
+        isDisabled: isDisabled.value,
+    });
+
+    watch([
+        colorShapeLight,
+        colorShapeDark,
+        isDisabled
+    ], () => {
+        updateIcon(idIconLeft.value, {
+            colorLight: colorShapeLight.value,
+            colorDark: colorShapeDark.value,
+            isDisabled: isDisabled.value,
+        });
+    });
+
+    //Delete childrens when component unmounts
+    onBeforeUnmount(() => {
+        if (idIconRight.value) {
+            deleteIcon(idIconRight.value);
+        }
+        if (idIconLeft.value) {
+            deleteIcon(idIconLeft.value);
+        }
+    });
 
     //Actions
-    const click = () => {
-        toggleRight();
-        toggleDark();
-    };
-
-    const toggleRight = () => { isRight.value = !isRight.value; };
-
-    //Change styles
-    const stateSwitch = computed(() => {
-        const classesSwitch = {};
-
-        classesSwitch['shape'] = true;
-
-        //If disabled is true, dont change styles
-        if (!isDisabled.value) {
-            if (isDark.value) {
-                classesSwitch['color-shape-dark'] = isDark.value;
-
-                //Change style icon component
-                color.value = 'var(--general-neutral-900-dark)';
-            }
-            else {
-                classesSwitch['color-shape-light'] = !isDark.value;
-
-                //Change style icon component
-                color.value = 'var(--general-neutral-900-light)';
-            }
-        }
-        else {
-            classesSwitch['disabled'] = isDisabled.value;
-        }
-
-        classesSwitch['right'] = isRight.value;
-
-        return classesSwitch;
-    });
-
-    const stateCircle = computed(() => {
-        const classesCircle = {};
-
-        classesCircle['circle'] = true;
-
-        //If disabled is true, dont change styles
-        if (!isDisabled.value) {
-            if (isDark.value) {
-                classesCircle['color-circle-dark'] = isDark.value;
-            }
-            else {
-                classesCircle['color-circle-light'] = !isDark.value;
-            }
-        }
-        else {
-            classesCircle['color-circle-light'] = isDisabled.value;
-        }
-
-        return classesCircle;
-    });
-
-    //Events
     const clickButton = () => {
-        click();
+        if (!isDisabled.value) {
+            click.value();
+        }
     };
 
+    //Change styles switch
+    const classes = computed(() => {
+        const classes= {};
+
+        classes['shape'] = true;
+        classes['right'] = isRight.value;
+
+        if (!isDisabled.value) {
+            classes['isClickable'] = true;
+        }
+
+        return classes;
+    });
+
+    const styles = computed(() => {
+        const styles = {};
+
+        // states classes
+        if (!isDisabled.value) {
+            if (isDark.value) {
+                styles.backgroundColor = colorShapeDark.value;
+            }
+            else {
+                styles.backgroundColor = colorShapeLight.value;
+            }
+        }
+        else {
+            styles.backgroundColor = 'var(--general-neutral-300-light)';
+        }
+
+        return styles;
+    });
+
+    //Change styles circle
+    const circleClasses = computed(() => {
+        const classes= {};
+
+        classes['circle'] = true;
+
+        return classes;
+    });
+
+    const circleStyles = computed(() => {
+        const styles = {};
+
+        // states classes
+        if (!isDisabled.value) {
+            if (isDark.value) {
+                styles.backgroundColor = colorCircleLight.value;
+            }
+            else {
+                styles.backgroundColor = colorCircleDark.value;
+            }
+        }
+        else {
+            styles.backgroundColor = 'var(--general-neutral-300-light)';
+        }
+
+        return styles;
+    });
 </script>
 
 <style scoped>
@@ -129,7 +207,6 @@
         padding: 0 0.2rem;
         align-items: center;
         border-radius: 5rem;
-        cursor: pointer;
     }
     .circle {
         display: flex;
@@ -142,29 +219,11 @@
         border-radius: 20rem;
     }
 
-    /* Component state */
+    .isClickable {
+        cursor: pointer;
+    }
+    
     .right {
         justify-content: flex-end;
-    }
-
-    /* Colors light component */
-    .color-shape-light {
-        background-color: var(--general-neutral-900-light);
-    }
-    .color-circle-light {
-        background-color: var(--general-background-light);
-    }
-
-    /* Colors dark component */
-    .color-shape-dark {
-        background-color: var(--general-neutral-900-dark);
-    }
-    .color-circle-dark {
-        background-color: var(--general-background-dark);
-    }
-
-    /* Colors states */
-    .disabled {
-        background-color: var(--general-neutral-300-light);
     }
 </style>

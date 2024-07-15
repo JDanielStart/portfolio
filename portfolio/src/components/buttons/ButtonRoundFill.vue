@@ -1,6 +1,7 @@
 <template>
     <div
-        :class="stateButton"
+        :style="styles"
+        :class="classes"
         @click="clickButton"
     >
         {{ text }}
@@ -8,59 +9,94 @@
 </template>
 
 <script setup>
+    //General imports
     import { storeToRefs } from 'pinia';
-    import { computed, ref, reactive, defineEmits } from 'vue';
+    import { computed, toRefs } from 'vue';
+
+    //Store imports
     import { useAppStore } from '../../stores/AppStore.js';
+    import { useButtonRoundFill } from '../../stores/ButtonRoundFillStore.js';
+
+    //Props
+    const props = defineProps({
+        state: {
+            type: Object
+        }
+    });
+
+    const { id } = props.state;
 
     //Stores
     const appStore = useAppStore()
+    const buttonRoundFillStore = useButtonRoundFill();
+
+    //Actions store
+    const { getText } = appStore;
+    const { getButtonRoundFill } = buttonRoundFillStore;
 
     //States store
     const { isDarkMode } = storeToRefs(appStore);
 
-    //Actions store
-    const { getText } = reactive(appStore);
+    const {
+        colorShapeLight: colorShapeLightStore,
+        colorShapeDark: colorShapeDarkStore,
+        colorTextLight: colorTextLightStore,
+        colorTextDark: colorTextDarkStore,
+        isDisabled: isDisabledStore,
+        click: clickStore,
+    } = toRefs(getButtonRoundFill(id));
 
     //States
     const isDark = computed(() => isDarkMode.value);
+
     const text = computed(() => getText('ButtonRoundFill'));
-
-    const isDisabled = ref(false);
-
-    //Emits
-    const emit = defineEmits(['click']);
+    const colorShapeLight = computed(() => colorShapeLightStore.value);
+    const colorShapeDark = computed(() => colorShapeDarkStore.value);
+    const colorTextLight = computed(() => colorTextLightStore.value);
+    const colorTextDark = computed(() => colorTextDarkStore.value);
+    const isDisabled = computed(() => isDisabledStore.value);
+    const click = computed(() => clickStore.value);
 
     //Actions
     const clickButton = () => {
         if (!isDisabled.value) {
-            emit('click');
-            console.log('Button clicked');
+            click.value();
         }
     };
 
     //Change styles
-    const stateButton = computed(() => {
-        const classesButton = {};
+    const classes = computed(() => {
+        const classes= {};
 
-        classesButton['shape'] = true;
-        classesButton['style-text'] = true;
+        classes['shape'] = true;
+        classes['style-text'] = true;
 
-        //If disabled is true, dont change styles
+        if (!isDisabled.value) {
+            classes['isClickable'] = true;
+        }
+
+        return classes;
+    });
+
+    const styles = computed(() => {
+        const styles = {};
+
         if (!isDisabled.value) {
             if (isDark.value) {
-                classesButton['color-shape-dark'] = isDark.value;
-                classesButton['color-text-dark'] = isDark.value;
+                styles.color = colorTextDark.value;
+                styles.backgroundColor = colorShapeDark.value;
             }
             else {
-                classesButton['color-shape-light'] = !isDark.value;
-                classesButton['color-text-light'] = !isDark.value;
+                styles.color = colorTextLight.value;
+                styles.backgroundColor = colorShapeLight.value;
             }
         }
         else {
-            classesButton['disabled'] = isDisabled.value;
+            styles.color = 'var(--general-neutral-white-light)';
+            styles.backgroundColor = 'var(--general-neutral-300-light)';
         }
 
-        return classesButton;
+        return styles;
     });
 </script>
 
@@ -72,7 +108,6 @@
         justify-content: center;
         align-items: center;
         border-radius: 5rem;
-        cursor: pointer;
         user-select: none;
     }
 
@@ -84,27 +119,7 @@
         font-size: var(--font-size-21);
     }
 
-    /* Colors light component */
-    .color-shape-light {
-        background-color: var(--general-secondary-light);
-    }
-
-    .color-text-light {
-        color: var(--general-background-light);
-    }
-
-    /* Colors dark component */
-    .color-shape-dark {
-        background-color: var(--general-secondary-dark);
-    }
-
-    .color-text-dark {
-        color: var(--general-background-dark);
-    }
-
-    /* Colors states */
-    .disabled {
-        background-color: var(--general-neutral-300-light);
-        color: var(--general-neutral-white-light);
+    .isClickable {
+        cursor: pointer;
     }
 </style>

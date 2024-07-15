@@ -1,97 +1,162 @@
 <template>
     <div
-        :class="stateButton"
+        :style="styles"
+        :class="classes"
         @click="clickButton"
     >
-        <img
-            :class="stateImg"
-            :src='imageSrcGithub'
-        >
-        <img
-            :class="stateImg"
-            :src='imageSrcOpen'
-        >
+        <Icon
+            :state="{ id: idIconLeft }"
+        />
+        <Icon
+            :state="{ id: idIconRight }"
+        />
     </div>
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue';
-    import '../css/general.css';
+    //General imports
+    import { storeToRefs } from 'pinia';
+    import { computed, ref, toRefs, watch, onBeforeUnmount  } from 'vue';
 
-    import github from '../../assets/github.svg';
-    import open from '../../assets/open.svg';
+    //Store imports
+    import { useAppStore } from '../../stores/AppStore.js';
+    import { useButtonCardGithub } from '../../stores/ButtonCardGithubStore.js';
+    import { useIcon } from '../../stores/IconStore.js';
 
-    // General state
-    const isDark = ref(false);
-    const isDisabled = ref(false);
+    //Components imports
+    import Icon from '../icons/Icon.vue';
 
-    // General method
-    const onDarkMode = () => {
-        isDark.value = !isDark.value;
+    //Props
+    const props = defineProps({
+        state: {
+            type: Object
+        }
+    });
+    
+    const { id } = props.state;
+
+    //Stores
+    const appStore = useAppStore();
+    const buttonCardGithubStore = useButtonCardGithub();
+    const iconStore = useIcon();
+
+    //Actions store
+    const { getButtonCardGithub } = buttonCardGithubStore;
+    const { createIcon, updateIcon, deleteIcon, getStandardIcon } = iconStore;
+
+    //States store
+    const { isDarkMode } = storeToRefs(appStore);
+
+    const {
+        colorShapeLight: colorShapeLightStore,
+        colorShapeDark: colorShapeDarkStore,
+        colorIconLight: colorIconLightStore,
+        colorIconDark: colorIconDarkStore,
+        isDisabled: isDisabledStore,
+        click: clickStore,
+    } = toRefs(getButtonCardGithub(id));
+
+    //States
+    const isDark = computed(() => isDarkMode.value);
+
+    const colorShapeLight = computed(() => colorShapeLightStore.value);
+    const colorShapeDark = computed(() => colorShapeDarkStore.value);
+    const colorIconLight = computed(() => colorIconLightStore.value);
+    const colorIconDark = computed(() => colorIconDarkStore.value);
+    const isDisabled = computed(() => isDisabledStore.value);
+    const click = computed(() => clickStore.value);
+
+    //Create childrens
+    const idIconLeft = ref(null);
+
+    idIconLeft.value = createIcon({
+        ...getStandardIcon('Github'),
+        colorLight: colorIconLight.value,
+        colorDark: colorIconDark.value,
+        isDisabled: isDisabled.value,
+    });
+
+    watch([
+        colorIconLight,
+        colorIconDark,
+        isDisabled
+    ], () => {
+        updateIcon(idIconLeft.value, {
+            colorLight: colorIconLight.value,
+            colorDark: colorIconDark.value,
+            isDisabled: isDisabled.value,
+        });
+    });
+
+    const idIconRight = ref(null);
+
+    idIconRight.value = createIcon({
+        ...getStandardIcon('Open'),
+        colorLight: colorIconLight.value,
+        colorDark: colorIconDark.value,
+        isDisabled: isDisabled.value,
+    });
+
+    watch([
+        colorIconLight,
+        colorIconDark,
+        isDisabled
+    ], () => {
+        updateIcon(idIconRight.value, {
+            colorLight: colorIconLight.value,
+            colorDark: colorIconDark.value,
+            isDisabled: isDisabled.value,
+        });
+    });
+
+    //Delete childrens when component unmounts
+    onBeforeUnmount(() => {
+        if (idIconLeft.value) {
+            deleteIcon(idIconLeft.value);
+        }
+        if (idIconRight.value) {
+            deleteIcon(idIconRight.value);
+        }
+    });
+
+    //Actions
+    const clickButton = () => {
+        if(!isDisabled.value) {
+            click.value();
+        }
     };
 
-    const onDisabled = () => {
-        isDisabled.value = !isDisabled.value;
-    };
+    //Change styles
+    const classes = computed(() => {
+        const classes= {};
 
-    // Specific method
-    const stateButton = computed(() => {
-        const classesButton = {};
+        classes['shape'] = true;
 
-        // predefined classes
-        classesButton['shape'] = true;
-        classesButton['style-text'] = true;
+        if (!isDisabled.value) {
+            classes['isClickable'] = true;
+        }
+
+        return classes;
+    });
+
+    const styles = computed(() => {
+        const styles = {};
 
         // states classes
         if (!isDisabled.value) {
             if (isDark.value) {
-                classesButton['primary-color-dark'] = isDark.value;
-                classesButton['text-color-dark'] = isDark.value;
+                styles.backgroundColor = colorShapeDark.value;
             }
             else {
-                classesButton['primary-color-light'] = !isDark.value;
-                classesButton['text-color-light'] = !isDark.value;
+                styles.backgroundColor = colorShapeLight.value;
             }
         }
         else {
-            classesButton['disabled'] = isDisabled.value;
+            styles.backgroundColor = 'var(--general-neutral-300-light)';
         }
 
-        return classesButton;
+        return styles;
     });
-
-    const stateImg = computed(() => {
-        const classesImg = {};
-
-        // predefined classes
-        classesImg['icon'] = true;
-
-        // states classes
-        if (!isDisabled.value) {
-            isDark.value ?
-            classesImg['img-primary-color-dark'] = isDark.value :
-            classesImg['img-primary-color-light'] = !isDark.value;
-        }
-        else {
-            classesImg['img-disabled'] = isDisabled.value;
-        }
-
-        return classesImg;
-    });
-
-    const imageSrcGithub = computed(() => {
-        return github;
-    });
-
-    const imageSrcOpen = computed(() => {
-        return open;
-    });
-
-    const clickButton = () => {
-        if (!isDisabled.value) {
-            console.log('Button clicked');
-        }
-    };
 </script>
 
 <style scoped>
@@ -106,47 +171,9 @@
         gap: 0.8rem;
         flex: 1 0 0;
         border-radius: 0rem 0rem 1rem 0rem;
+    }
+
+    .isClickable {
         cursor: pointer;
-    }
-
-    .style-text {
-        text-align: center;
-        text-transform: uppercase;
-        font-family: var(--font-family-secondary);
-        font-size: var(--font-size-16);
-    }
-
-    /* Component state */
-
-
-    /* Colors light component */
-    .primary-color-light {
-        background-color: #202020;
-    }
-
-    .img-primary-color-light {
-        filter: brightness(0) saturate(100%) invert(100%);
-    }
-
-
-    /* Colors dark component */
-    .primary-color-dark {
-        background-color: #202020;
-    }
-
-    .text-color-dark {
-        color: var(--general-neutral-900-dark);
-    }
-
-    .img-primary-color-dark {
-        filter: brightness(0) saturate(100%) invert(100%);
-    }
-
-    /* Colors states */
-    .disabled {
-        background-color: var(--general-neutral-300-light);
-    }
-    .img-disabled {
-        filter: brightness(0) saturate(100%) invert(100%);
     }
 </style>
