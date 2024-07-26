@@ -2,10 +2,10 @@
     <div
         class="shape"
     >
-        <CardProject
-            v-for="(cardProject, index) in cardProjects"
+        <Credential
+            v-for="(credential, index) in credentials"
             :key="index"
-            :state="{id: cardProject.id}"
+            :state="{id: credential.id}"
         />
     </div>
 </template>
@@ -15,10 +15,10 @@
     import { computed, toRefs  } from 'vue';
 
     //Store imports
-    import { useGroupCardProject } from '../../../stores/GroupCardProjectStore.js';
+    import { useGroupCredential } from '../../stores/GroupCredentialStore.js';
 
     //Components imports
-    import CardProject from '../../cards/CardProject.vue';
+    import Credential from '../credentials/Credential.vue';
 
     //Props
     const props = defineProps({
@@ -30,18 +30,18 @@
     const { id } = props.state;
 
     //Stores
-    const groupCardProject = useGroupCardProject();
+    const groupCredential = useGroupCredential();
     
     //Actions store
-    const { getGroupCardProject } = groupCardProject;
+    const { getGroupCredential } = groupCredential;
 
     //States store
     const {
-        containerGroupCardProject: containerGroupCardProjectStore,
-    } = toRefs(getGroupCardProject(id));
+        containerGroupCredential: containerGroupCredentialStore,
+    } = toRefs(getGroupCredential(id));
 
     //States
-    const cardProjects = computed(() => containerGroupCardProjectStore.value);
+    const credentials = computed(() => containerGroupCredentialStore.value);
 </script>
 
 <style scoped>
@@ -49,8 +49,11 @@
     .shape {
         display: flex;
         justify-content: center;
+        align-items: flex-start;
         gap: 4rem 2.4rem;
         flex-wrap: wrap;
         max-width: 120rem;
+        margin: 0 auto;
+        width: 100%;
     }
 </style>

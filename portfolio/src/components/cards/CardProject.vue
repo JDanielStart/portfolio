@@ -1,5 +1,5 @@
 <template>
-    <figure
+    <div
         :style="styles"
         :class="classesFigure"
     >
@@ -13,44 +13,40 @@
                 @click="clickImg"
             />
         </div>
-        <figcaption
-        >
-            <section>
-                <h2
-                    :class="classesTitle"
-                >
-                {{ textTitle }}
-                </h2>
-                <h3
-                    :class="classesDescription"
-                >
-                    {{ textDescription }}
-                </h3>
-            </section>
-            <section
-                :class="classesTechnology"
+        <section>
+            <h2
+                :class="classesTitle"
             >
-                <GroupTagText
-                    :class="classesContainer"
-                    :state="{ id: idGroupTagText }"
-                />
-                <GroupTagIcon
-                    :class="classesContainerIcons"
-                    :state="{ id: idGroupTagIcon }"
-                />
-            </section>
-        </figcaption>
+            {{ textTitle }}
+            </h2>
+            <h3
+                :class="classesDescription"
+            >
+                {{ textDescription }}
+            </h3>
+        </section>
+        <section
+            :class="classesTechnology"
+        >
+            <GroupTagText
+                :class="classesContainer"
+                :state="{ id: idGroupTagText }"
+            />
+            <GroupTagIcon
+                :class="classesContainerIcons"
+                :state="{ id: idGroupTagIcon }"
+            />
+        </section>
         <ButtonsCard
             :state="{ id: idGroupButtonCard }"
         />
-    </figure>
-
+    </div>
 </template>
 
 <script setup>
     //General imports
     import { storeToRefs } from 'pinia';
-    import { computed, toRefs  } from 'vue';
+    import { computed, toRefs, watch } from 'vue';
 
     //Store imports
     import { useAppStore } from '../../stores/AppStore.js';
@@ -169,6 +165,28 @@
             styles.color = 'var(--general-neutral-white-light)';
             styles.backgroundColor = 'var(--general-neutral-300-light)';
 
+        }
+
+        return styles;
+    });
+
+    watch(isDisabled, (newVal) => {
+        if (!newVal) {
+            const { containerGroupTagIcon } = getGroupTagIcon(idGroupTagIcon.value);
+            containerGroupTagIcon.forEach(({ id }) => updateTagIcon({ id, isDisabled: false }));
+
+            const { containerGroupTagText } = getGroupTagText(idGroupTagText.value);
+            containerGroupTagText.forEach(({ id }) => updateTagText({ id, isDisabled: false }));
+
+            const { idButtonCardWhiteboard } = getGroupButtonCard(idGroupButtonCard.value);
+            updateButtonCardWhiteboard({ id: idButtonCardWhiteboard, isDisabled: false });
+
+            const { idButtonCardFigma } = getGroupButtonCard(idGroupButtonCard.value);
+            updateButtonCardFigma({ id: idButtonCardFigma, isDisabled: false });
+
+            const { idButtonCardGithub } = getGroupButtonCard(idGroupButtonCard.value);
+            updateButtonCardGithub({ id: idButtonCardGithub, isDisabled: false });
+        } else {
             const { containerGroupTagIcon } = getGroupTagIcon(idGroupTagIcon.value);
             containerGroupTagIcon.forEach(({ id }) => updateTagIcon({ id, isDisabled: true }));
 
@@ -183,11 +201,8 @@
 
             const { idButtonCardGithub } = getGroupButtonCard(idGroupButtonCard.value);
             updateButtonCardGithub({ id: idButtonCardGithub, isDisabled: true });
-
         }
-
-        return styles;
-    });
+    }, { immediate: true });
 
     const opacity = computed(() => {
         const opacity = {};
@@ -321,8 +336,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(255, 255, 255, 0.5); /* Blanco con opacidad */
-        mix-blend-mode: screen; /* Mezcla los colores */
-        pointer-events: none; /* Asegura que la capa sea no interactiva */
+        background: rgba(255, 255, 255, 0.5);
+        mix-blend-mode: screen;
+        pointer-events: none;
     }
 </style>

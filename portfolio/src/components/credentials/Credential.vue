@@ -1,21 +1,23 @@
 <template>
-    <div
-        :class="classes"
-        @focusin="focusIn"
-        @focusout="focusOut"
-        tabindex="0"
-    >
+    <div>
         <div
-            :class="icons"
+            :class="classes"
+            @focusin="focusIn"
+            @focusout="focusOut"
+            tabindex="0"
         >
-            <Icon :state="{ id: idIconLeft }"/>
-            <Icon :state="{ id: idIconRight }"/>
+            <div
+                :class="icons"
+            >
+                <Icon :state="{ id: idIconLeft }"/>
+                <Icon :state="{ id: idIconRight }"/>
+            </div>
+            <img
+                :class="image"
+                :src="urlImage"
+                :alt="altImage"
+            >
         </div>
-        <img
-            :class="image"
-            :src="urlImage"
-            :alt="altImage"
-        >
     </div>
 </template>
 
@@ -58,6 +60,9 @@
         urlImageEnglish: urlImageEnglishStore,
         urlImageFrench: urlImageFrenchStore,
         urlImageSpanish: urlImageSpanishStore,
+        urlPDFSpanish: urlPDFSpanishStore,
+        urlPDFEnglish: urlPDFEnglishStore,
+        urlPDFFrench: urlPDFFrenchStore,
         colorShapeLight: colorShapeLightStore,
         colorShapeDark: colorShapeDarkStore,
         isOnlyRead: isOnlyReadStore,
@@ -71,6 +76,9 @@
     const urlImageEnglish = ref(urlImageEnglishStore.value);
     const urlImageFrench = ref(urlImageFrenchStore.value);
     const urlImageSpanish = ref(urlImageSpanishStore.value);
+    const urlPDFSpanish = ref(urlPDFSpanishStore.value);
+    const urlPDFEnglish = ref(urlPDFEnglishStore.value);
+    const urlPDFFrench = ref(urlPDFFrenchStore.value);
     const colorShapeLight = ref(colorShapeLightStore.value);
     const colorShapeDark = ref(colorShapeDarkStore.value);
     const isOnlyRead = ref(isOnlyReadStore.value);
@@ -85,6 +93,16 @@
             return urlImageFrench.value;
         } else if (appStore.languageMode === 'es') {
             return urlImageSpanish.value;
+        }
+    });
+
+    const urlPDF = computed(() => {
+        if (appStore.languageMode === 'en') {
+            return urlPDFEnglish.value;
+        } else if (appStore.languageMode === 'fr') {
+            return urlPDFFrench.value;
+        } else if (appStore.languageMode === 'es') {
+            return urlPDFSpanish.value;
         }
     });
 
@@ -103,19 +121,19 @@
         isDisabled: isDisabled.value,
         click: async () => {
             try {
-                const response = await fetch(urlImage.value);
+                const response = await fetch(urlPDF.value);
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.style.display = 'none';
                 a.href = url;
-                a.download = 'imagen.jpg';
+                a.download = `${name.value}.pdf`;
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
-                console.log('Imagen descargada exitosamente');
+                console.log('Download the PDF successfully');
             } catch (error) {
-                console.error('Error al descargar la imagen:', error);
+                console.error('Error to download PDF', error);
             }
         }
     });
@@ -141,46 +159,26 @@
         isOnlyRead: false,
         isDisabled: isDisabled.value,
         click: async () => {
-            if (navigator.canShare && navigator.canShare({ files: [new File([], '')] })) {
-                // Caso 1: Compartir el archivo de imagen
-                try {
-                    const response = await fetch(urlImage.value);
-                    const blob = await response.blob();
-                    const file = new File([blob], 'imagen.jpg', { type: blob.type });
-
-                    await navigator.share({
-                        title: 'Compartir imagen',
-                        text: 'Mira esta imagen',
-                        files: [file]
-                    });
-                    console.log('Imagen compartida exitosamente');
-                } catch (error) {
-                    console.error('Error al compartir la imagen:', error);
+            console.log('Share button clicked');
+            try {
+                const shareData = {
+                    title: 'Download PDF',
+                    text: `Download the PDF of ${name.value}`,
+                    url: urlPDF.value,
+                };
+                if (navigator.canShare && navigator.canShare(shareData)) {
+                    await navigator.share(shareData);
+                    console.log('Link shared successfully');
+                } else {
+                    console.log('Your browser does not support sharing links. Copying to clipboard instead.');
+                    await navigator.clipboard.writeText(shareData.url);
+                    console.log('Link copied to clipboard');
                 }
-            } else if (navigator.share) {
-                // Caso 2: Compartir la URL de la imagen
-                try {
-                    await navigator.share({
-                        title: 'Compartir imagen',
-                        text: 'Mira esta imagen',
-                        url: urlImage.value
-                    });
-                    console.log('URL de la imagen compartida exitosamente');
-                } catch (error) {
-                    console.error('Error al compartir la URL de la imagen:', error);
-                }
-            } else {
-                // Caso 3: Copiar la URL de la imagen al portapapeles
-                try {
-                    await navigator.clipboard.writeText(urlImage.value);
-                    console.log('URL de la imagen copiada al portapapeles');
-                    alert('La URL de la imagen ha sido copiada al portapapeles');
-                } catch (error) {
-                    console.error('Error al copiar la URL al portapapeles:', error);
-                }
+            } catch (error) {
+                console.log('Error to share link', error);
             }
-        },
-        });
+        }
+    });
 
     watch([
         colorShapeLight,
@@ -243,7 +241,7 @@
     const image = computed(() => {
         const classes= {};
 
-        classes['shape'] = true;
+        classes['image'] = true;
 
         if (!isDisabled.value && !isOnlyRead.value) {
             classes['isClickable'] = true;
@@ -261,22 +259,16 @@
     }
 
     .image {
-        display: flex;
-        max-width: 29.7rem;
-        max-height: 21rem;
-        flex-direction: column;
-        align-items: flex-start;
         width: 100%;
+        height: 100%;
     }
 
     .icons {
-        max-width: 29.7rem;
-        max-height: 21rem;
+        width: 100%;
         display: flex;
         justify-content: flex-end;
         align-items: flex-start;
         gap: 1.2rem;
-        flex: 1 0 0;
     }
 
     .isClickable {
