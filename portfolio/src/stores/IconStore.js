@@ -480,6 +480,28 @@ export const useIcon = defineStore('icon', () => {
             isOnlyRead: true,
             isDisabled: false,
             click: () => { console.log(`icon ${name} clicked`)},
+        },
+        PDF: {
+            name: 'PDF',
+            width: '2rem',
+            height: '2rem',
+            viewBox: '0 0 20 20',
+            colorLight: 'var(--general-neutral-white-light)',
+            colorDark: 'var(--general-neutral-white-light)',
+            isOnlyRead: true,
+            isDisabled: false,
+            click: () => { console.log(`icon ${name} clicked`)},
+        },
+        Share: {
+            name: 'Share',
+            width: '2rem',
+            height: '2rem',
+            viewBox: '-2 -2 24 24',
+            colorLight: 'var(--general-neutral-white-light)',
+            colorDark: 'var(--general-neutral-white-light)',
+            isOnlyRead: true,
+            isDisabled: false,
+            click: () => { console.log(`icon ${name} clicked`)},
         }
     }
 

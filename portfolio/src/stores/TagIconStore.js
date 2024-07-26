@@ -58,7 +58,7 @@ export const useTagIcon = defineStore('tagIcon', () => {
             isDisabledMode: false,
             isOnlyReadMode: false,
         },
-        ChapGPT: {
+        ChatGPT: {
             name: 'ChatGPT',
             colorShapeLight: 'var(--general-neutral-black-light)',
             colorShapeDark: 'var(--general-neutral-white-light)',
@@ -497,8 +497,8 @@ export const useTagIcon = defineStore('tagIcon', () => {
 
         createTagIcon(
             {
-                ...getStandardTagIcon('ChapGPT'),
-                id: 'ChapGPT',
+                ...getStandardTagIcon('ChatGPT'),
+                id: 'ChatGPT',
                 isOnlyRead: true,
             }
         );

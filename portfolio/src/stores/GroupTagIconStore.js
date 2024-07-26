@@ -59,7 +59,7 @@ export const useGroupTagIcon = defineStore('groupTagIcon', () => {
                 tagIconStore.getTagIcon('Adobe'),
                 tagIconStore.getTagIcon('Figma'),
                 tagIconStore.getTagIcon('Whiteboard'),
-                tagIconStore.getTagIcon('ChapGPT'),
+                tagIconStore.getTagIcon('ChatGPT'),
                 tagIconStore.getTagIcon('GithubCopilot'),
                 tagIconStore.getTagIcon('Midjourney'),
             ],

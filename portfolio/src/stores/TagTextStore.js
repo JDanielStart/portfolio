@@ -247,6 +247,16 @@ export const useTagText = defineStore('tagText', () => {
             isSelected: false,
             isOnlyRead: false,
             isDisabled: false,
+        },
+        studying: {
+            name: 'studying',
+            colorShapeLight: 'var(--general-error-light)',
+            colorShapeDark: 'var(--general-error-dark)',
+            colorTextLight: 'var(--general-background-light)',
+            colorTextDark: 'var(--general-background-dark)',
+            isSelected: false,
+            isOnlyRead: false,
+            isDisabled: false,
         }
     };
 
@@ -506,6 +516,14 @@ export const useTagText = defineStore('tagText', () => {
                 isOnlyRead: true,
             }
         );
+
+        createTagText(
+            {
+                ...getStandardTagText('studying'),
+                id: 'studying',
+                isOnlyRead: true,
+            }
+        );
     }
 
     init();
@@ -518,5 +536,6 @@ export const useTagText = defineStore('tagText', () => {
         getTagText,
         updateTagText,
         deleteTagText,
+        getStandardTagText,
     };
 });

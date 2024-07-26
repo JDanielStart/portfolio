@@ -9,7 +9,7 @@ export const useCardProject = defineStore('cardProject', () => {
     //Actions
     function createCardProject({
             id = items.size.toString(),
-            srcImg = 'https://cdn.pixabay.com/photo/2016/11/29/06/15/plans-1867745_1280.jpg',
+            srcImg = '../public/imgs/projects/default-project.jpg',
             colorShapeLight = '',
             colorShapeDark = '',
             colorTextLight = '',
