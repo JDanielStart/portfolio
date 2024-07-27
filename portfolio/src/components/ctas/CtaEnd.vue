@@ -161,7 +161,7 @@
 
     .contact-me {
         display: flex;
-        min-width: 18rem;
+        min-width: 20rem;
         min-height: 11rem;
         flex-direction: column;
         justify-content: center;
