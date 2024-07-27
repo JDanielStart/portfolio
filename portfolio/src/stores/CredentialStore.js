@@ -644,12 +644,12 @@ export const useCredential = defineStore('credential', () => {
         createCredential({
             id: 'cv',
             name: 'cv',
-            urlImageEnglish: '../../public/imgs/cv-jesus-daniel-english.jpg',
-            urlImageFrench: '../../public/imgs/cv-jesus-daniel-french.jpg',
-            urlImageSpanish: '../../public/imgs/cv-jesus-daniel-spanish.jpg',
-            urlPDFEnglish: '../../public/pdfs/english/web-design-with-html-and-css-english.pdf',
-            urlPDFFrench: '../../public/pdfs/french/web-design-with-html-and-css-french.pdf',
-            urlPDFSpanish: '../../public/pdfs/spanish/web-design-with-html-and-css-spanish.pdf',
+            urlImageEnglish: '../../public/imgs/credentials/english/cv-jesus-daniel-english.jpg',
+            urlImageFrench: '../../public/imgs/credentials/french/cv-jesus-daniel-french.jpg',
+            urlImageSpanish: '../../public/imgs/credentials/spanish/cv-jesus-daniel-spanish.jpg',
+            urlPDFEnglish: '../../public/pdfs/english/cv-jesus-daniel-english.pdf',
+            urlPDFFrench: '../../public/pdfs/french/cv-jesus-daniel-french.pdf',
+            urlPDFSpanish: '../../public/pdfs/spanish/cv-jesus-daniel-spanish.pdf',
         });
     }
 
