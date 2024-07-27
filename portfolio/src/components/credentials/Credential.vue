@@ -2,15 +2,16 @@
     <div>
         <div
             :class="classes"
-            @focusin="focusIn"
+            @click="click"
             @focusout="focusOut"
             tabindex="0"
         >
             <div
                 :class="icons"
             >
-                <Icon :state="{ id: idIconLeft }"/>
-                <Icon :state="{ id: idIconRight }"/>
+                <Icon :state="{ id: idIconDownload }"/>
+                <Icon :state="{ id: idIconShare }"/>
+                <Icon :state="{ id: idIconOpen }"/>
             </div>
             <img
                 :class="image"
@@ -53,7 +54,7 @@
     const { createIcon, updateIcon, deleteIcon, getStandardIcon } = iconStore;
 
     //States store
-    const { isDarkMode } = storeToRefs(appStore);
+    const { languageMode } = storeToRefs(appStore);
 
     const {
         name: nameStore,
@@ -70,7 +71,7 @@
     } = toRefs(getCredential(id));
 
     //States
-    const isDark = computed(() => isDarkMode.value);
+    const language = ref(languageMode.value);
 
     const name = ref(nameStore.value);
     const urlImageEnglish = ref(urlImageEnglishStore.value);
@@ -87,21 +88,21 @@
     const isFocused = ref(false);
 
     const urlImage = computed(() => {
-        if (appStore.languageMode === 'en') {
+        if (language.value === 'en') {
             return urlImageEnglish.value;
-        } else if (appStore.languageMode === 'fr') {
+        } else if (language.value === 'fr') {
             return urlImageFrench.value;
-        } else if (appStore.languageMode === 'es') {
+        } else if (language.value === 'es') {
             return urlImageSpanish.value;
         }
     });
 
     const urlPDF = computed(() => {
-        if (appStore.languageMode === 'en') {
+        if (language.value === 'en') {
             return urlPDFEnglish.value;
-        } else if (appStore.languageMode === 'fr') {
+        } else if (language.value === 'fr') {
             return urlPDFFrench.value;
-        } else if (appStore.languageMode === 'es') {
+        } else if (language.value === 'es') {
             return urlPDFSpanish.value;
         }
     });
@@ -111,9 +112,34 @@
     });
 
     //Create childrens
-    const idIconLeft = ref(null);
+    const idIconOpen = ref(null);
 
-    idIconLeft.value = createIcon({
+    idIconOpen.value = createIcon({
+        ...getStandardIcon('Open2'),
+        colorLight: colorShapeLight.value,
+        colorDark: colorShapeDark.value,
+        isOnlyRead: false,
+        isDisabled: isDisabled.value,
+        click: () => {
+            window.open(urlPDF.value, '_blank');
+        }
+    });
+
+    watch([
+        colorShapeLight,
+        colorShapeDark,
+        isDisabled
+    ], () => {
+        updateIcon(idIconOpen.value, {
+            colorLight: colorShapeLight.value,
+            colorDark: colorShapeDark.value,
+            isDisabled: isDisabled.value,
+        });
+    });
+
+    const idIconDownload = ref(null);
+
+    idIconDownload.value = createIcon({
         ...getStandardIcon('PDF'),
         colorLight: colorShapeLight.value,
         colorDark: colorShapeDark.value,
@@ -143,16 +169,16 @@
         colorShapeDark,
         isDisabled
     ], () => {
-        updateIcon(idIconLeft.value, {
+        updateIcon(idIconDownload.value, {
             colorLight: colorShapeLight.value,
             colorDark: colorShapeDark.value,
             isDisabled: isDisabled.value,
         });
     });
 
-    const idIconRight = ref(null);
+    const idIconShare = ref(null);
 
-    idIconRight.value = createIcon({
+    idIconShare.value = createIcon({
         ...getStandardIcon('Share'),
         colorLight: colorShapeLight.value,
         colorDark: colorShapeDark.value,
@@ -185,7 +211,7 @@
         colorShapeDark,
         isDisabled
     ], () => {
-        updateIcon(idIconRight.value, {
+        updateIcon(idIconShare.value, {
             colorLight: colorShapeLight.value,
             colorDark: colorShapeDark.value,
             isDisabled: isDisabled.value,
@@ -194,18 +220,21 @@
 
     //Delete childrens when component unmounts
     onBeforeUnmount(() => {
-        if (idIconLeft.value) {
-            deleteIcon(idIconLeft.value);
+        if (idIconOpen .value) {
+            deleteIcon(idIconOpen.value);
         }
-        if (idIconRight.value) {
-            deleteIcon(idIconRight.value);
+        if (idIconDownload.value) {
+            deleteIcon(idIconDownload.value);
+        }
+        if (idIconShare.value) {
+            deleteIcon(idIconShare.value);
         }
     });
 
     //Actions
-    const focusIn = () => {
+    const click = () => {
         if (!isDisabled.value && !isOnlyRead.value) {
-            isFocused.value = true;
+            isFocused.value = !isFocused.value;
         }
     };
 
