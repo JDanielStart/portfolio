@@ -349,6 +349,17 @@ export const useIcon = defineStore('icon', () => {
             isDisabled: false,
             click: () => { console.log(`icon ${name} clicked`)},
         },
+        Open2: {
+            name: 'Open2',
+            width: '2rem',
+            height: '2rem',
+            viewBox: '0 -5 29 29',
+            colorLight: 'var(--general-neutral-white-light)',
+            colorDark: 'var(--general-neutral-white-light)',
+            isOnlyRead: true,
+            isDisabled: false,
+            click: () => { console.log(`icon ${name} clicked`)},
+        },
         Pip: {
             name: 'Pip',
             width: '2rem',
