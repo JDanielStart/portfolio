@@ -167,6 +167,11 @@ export const useAppStore = defineStore('app', () => {
                     es: 'CANCELADO',
                     fr: 'ANNULÉ',
                 },
+                studying: {
+                    en: 'STUDYING',
+                    es: 'ESTUDIANDO',
+                    fr: 'ÉTUDE',
+                },
             },
             CardProject: {
                 portfolio: {
@@ -178,6 +183,57 @@ export const useAppStore = defineStore('app', () => {
                         `Ceci est mon portfolio. Un portfolio personnel est une collection organisée du travail, des compétences et des réalisations d'un individu. Il comprend généralement une variété de projets, d'études de cas et d'exemples qui montrent`,
                 }
             },
+            CardTechnology: {
+                Design: {
+                    en: 'Design',
+                    es: 'Diseño',
+                    fr: 'Conception',
+                },
+                Frontend: {
+                    en: 'Frontend',
+                    es: 'Frontend',
+                    fr: 'Frontend',
+                },
+                Backend: {
+                    en: 'Backend',
+                    es: 'Backend',
+                    fr: 'Backend',
+                },
+                Tools: {
+                    en: 'Tools',
+                    es: 'Herramientas',
+                    fr: 'Outils',
+                },
+                AI: {
+                    en: 'AI',
+                    es: 'IA',
+                    fr: 'IA',
+                },
+                Testing: {
+                    en: 'Testing',
+                    es: 'Testing',
+                    fr: 'Testing',
+                },
+            },
+            CtaStart: {
+                title: {
+                    en: 'DESIGN AND FRONTEND',
+                    es: 'DISEÑO Y FRONTEND',
+                    fr: 'CONCEPTION ET FRONTEND',
+                },
+                description: {
+                    en: 'Frontend developer with an understanding of design, user experience, and web development process.',
+                    es: 'Desarrollador Frontend con una comprensión sobre el diseño, la experiencia de usuario y el proceso de desarrollo web.',
+                    fr: 'Développeur Frontend avec une compréhension du design, de l\'expérience utilisateur et du processus de développement web.',
+                },
+            },
+            CtaEnd: {
+                none: {
+                    en: 'DESIGN AND FRONTEND',
+                    es: 'DISEÑO Y FRONTEND',
+                    fr: 'CONCEPTION ET FRONTEND',
+                },
+            }
         };
     
         return texts[component]?.[type]?.[languageMode.value];
