@@ -1,4 +1,5 @@
 //General imports
+import { create, get } from 'lodash';
 import { defineStore } from 'pinia';
 import { reactive } from 'vue';
 
@@ -513,6 +514,61 @@ export const useIcon = defineStore('icon', () => {
             isOnlyRead: true,
             isDisabled: false,
             click: () => { console.log(`icon ${name} clicked`)},
+        },
+        Profile: {
+            name: 'Profile',
+            width: '2rem',
+            height: '2rem',
+            viewBox: '1 0 18 18',
+            colorLight: 'var(--general-neutral-white-light)',
+            colorDark: 'var(--general-neutral-white-light)',
+            isOnlyRead: true,
+            isDisabled: false,
+            click: () => { console.log(`icon ${name} clicked`)},
+        },
+        Code: {
+            name: 'Code',
+            width: '2rem',
+            height: '2rem',
+            viewBox: '0.5 0 19 19',
+            colorLight: 'var(--general-neutral-white-light)',
+            colorDark: 'var(--general-neutral-white-light)',
+            isOnlyRead: true,
+            isDisabled: false,
+            click: () => { console.log(`icon ${name} clicked`)},
+        },
+        Project: {
+            name: 'Project',
+            width: '2rem',
+            height: '2rem',
+            viewBox: '0 0 21 21',
+            colorLight: 'var(--general-neutral-white-light)',
+            colorDark: 'var(--general-neutral-white-light)',
+            isOnlyRead: true,
+            isDisabled: false,
+            click: () => { console.log(`icon ${name} clicked`)},
+        },
+        Credential: {
+            name: 'Credential',
+            width: '2rem',
+            height: '2rem',
+            viewBox: '-1 -1 22 22',
+            colorLight: 'var(--general-neutral-white-light)',
+            colorDark: 'var(--general-neutral-white-light)',
+            isOnlyRead: true,
+            isDisabled: false,
+            click: () => { console.log(`icon ${name} clicked`)},
+        },
+        SendEmail: {
+            name: 'SendEmail',
+            width: '2rem',
+            height: '2rem',
+            viewBox: '0 -2 20 20',
+            colorLight: 'var(--general-neutral-white-light)',
+            colorDark: 'var(--general-neutral-white-light)',
+            isOnlyRead: true,
+            isDisabled: false,
+            click: () => { console.log(`icon ${name} clicked`)},
         }
     }
 
@@ -566,6 +622,14 @@ export const useIcon = defineStore('icon', () => {
         items.delete(id);
     }
 
+    function changeColor(id, colorLight, colorDark) {
+        const icon = getIcon(id);
+        if (icon) {
+            icon.colorLight = colorLight;
+            icon.colorDark = colorDark;
+        }
+    }
+
     //Initializate
     function init() {
         createIcon({id: 'Ada'});
@@ -582,5 +646,6 @@ export const useIcon = defineStore('icon', () => {
         getIcon,
         updateIcon,
         deleteIcon,
+        changeColor,
     };
 });
