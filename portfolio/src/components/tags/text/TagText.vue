@@ -42,7 +42,7 @@
     //Actions store
     const { getText } = appStore;
     const { getTagText } = tagTextStore;
-    const { createIcon, updateIcon, deleteIcon, getStandardIcon } = iconStore;
+    const { createIcon, deleteIcon, getStandardIcon } = iconStore;
 
     //States store
     const { isDarkMode } = storeToRefs(appStore);
@@ -82,18 +82,6 @@
         colorLight: colorTextLight.value,
         colorDark: colorTextDark.value,
         isDisabled: isDisabled.value,
-    });
-
-    watch([
-        colorTextLight,
-        colorTextDark,
-        isDisabled,
-    ], () => {
-        updateIcon(idIconLeft.value, {
-            colorLight: colorTextLight.value,
-            colorDark: colorTextDark.value,
-            isDisabled: isDisabled.value,
-        });
     });
 
     //Delete childrens when component unmounts
