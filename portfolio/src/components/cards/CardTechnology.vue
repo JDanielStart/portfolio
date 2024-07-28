@@ -51,7 +51,7 @@
     //Actions store
     const { getText } = appStore;
     const { getGroupRating } = groupRating;
-    const { getRating, updateRating } = useRating();
+    const { updateRating } = useRating();
     const { getCardTechnology } = cardTechnology;
 
     //States store
