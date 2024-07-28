@@ -81,8 +81,8 @@
     //Actions store
     const { getText } = appStore;
     const { getRating, toggleNoRating } = ratingStore;
-    const { getStandardTagIcon, getTagIcon, createTagIcon, updateTagIcon, deleteTagIcon } = tagIconStore;
-    const { getStandardTagText, getTagText, createTagText, updateTagText, deleteTagText } = tagTextStore;
+    const { getStandardTagIcon, createTagIcon, deleteTagIcon } = tagIconStore;
+    const { getStandardTagText, createTagText, updateTagText, deleteTagText } = tagTextStore;
 
     //States store
     const { isDarkMode } = storeToRefs(appStore);
@@ -143,7 +143,8 @@
         text,
         isDisabled
     ], () => {
-        updateTagText(idTagText.value, {
+        updateTagText({
+            id: idTagText.value,
             text: text.value,
             isDisabled: isDisabled.value,
         });
