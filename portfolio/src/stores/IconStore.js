@@ -1,5 +1,4 @@
 //General imports
-import { create, get } from 'lodash';
 import { defineStore } from 'pinia';
 import { reactive } from 'vue';
 
@@ -286,8 +285,8 @@ export const useIcon = defineStore('icon', () => {
         },
         Moon: {
             name: 'Moon',
-            width: '2rem',
-            height: '2rem',
+            width: '1.1rem',
+            height: '1.1rem',
             viewBox: '0 0 20 20',
             colorLight: 'var(--general-neutral-white-light)',
             colorDark: 'var(--general-neutral-white-light)',
@@ -418,8 +417,8 @@ export const useIcon = defineStore('icon', () => {
         },
         Sun: {
             name: 'Sun',
-            width: '2rem',
-            height: '2rem',
+            width: '1.1rem',
+            height: '1.1rem',
             viewBox: '0 0 20 20',
             colorLight: 'var(--general-neutral-white-light)',
             colorDark: 'var(--general-neutral-white-light)',
@@ -630,9 +629,26 @@ export const useIcon = defineStore('icon', () => {
         }
     }
 
+    function changeSize (id, width, height) {
+        const icon = getIcon(id);
+        if (icon) {
+            icon.width = width;
+            icon.height = height;
+        }
+    }
+
     //Initializate
     function init() {
         createIcon({id: 'Ada'});
+        createIcon(
+            {
+                ...getStandardIcon('Github'),
+                id: 'Github',
+                colorLight: 'var(--general-neutral-900-light)',
+                colorDark: 'var(--general-neutral-900-dark)',
+                isOnlyRead: true,
+            }
+        );
     }
 
     init();
@@ -647,5 +663,6 @@ export const useIcon = defineStore('icon', () => {
         updateIcon,
         deleteIcon,
         changeColor,
+        changeSize,
     };
 });
