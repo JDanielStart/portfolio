@@ -43,7 +43,7 @@ export const useGroupCredential = defineStore('groupCredential', () => {
     //Initializate
     function init() {
         createGroupCredential({
-            id: '0',
+            id: 'credential',
             containerGroupCredential: [
                 // Design
                 credentialStore.getCredential('advanced-design-system'),
