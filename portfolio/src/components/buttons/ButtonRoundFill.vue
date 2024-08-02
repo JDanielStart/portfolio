@@ -108,6 +108,7 @@
         justify-content: center;
         align-items: center;
         border-radius: 5rem;
+        -webkit-user-select: none;
         user-select: none;
     }
 
