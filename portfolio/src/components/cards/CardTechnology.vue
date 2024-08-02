@@ -169,6 +169,7 @@
         align-items: flex-start;
         font-family: var(--font-family-secondary);
         font-size: var(--font-size-13);
+        -webkit-user-select: none;
         user-select: none;
     }
 </style>
