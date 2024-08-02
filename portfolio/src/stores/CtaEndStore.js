@@ -47,7 +47,7 @@ export const useCtaEnd = defineStore('ctaEnd', () => {
         createCtaEnd({
             id: 'end',
             idCredential: 'cv',
-            urlImage: '/imgs/funko-developer.png',
+            urlImage: 'imgs/funko-developer.png',
             idButtonRoundFill: 'end',
         });
     }
