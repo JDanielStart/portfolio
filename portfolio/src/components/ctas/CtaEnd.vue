@@ -21,6 +21,7 @@
             <img
                 :class="classesImg"
                 :src="urlImage"
+                :alt="altText"
             >
             <ButtonRoundFill :state="{id: idButtonRoundFill}"/>
         </div>
@@ -78,6 +79,7 @@
     const colorTextTitleDark = computed(() => colorTextTitleDarkStore.value);
 
     const text = computed(() => getText('CtaEnd'));
+    const altText = computed(() => getText('CtaEnd', 'alt'));
 
     //Actions
 
@@ -172,6 +174,8 @@
     .img {
         width: 7.5rem;
         height: 7.5rem;
+        -webkit-user-select: none;
+        user-select: none;
     }
 
     .text {
