@@ -278,12 +278,13 @@
         width: 30rem;
         flex-direction: column;
         border-radius: 0rem 0rem 1.2rem 1.2rem;
-        box-shadow: 0rem 0.4rem 0.4rem 0rem rgba(0, 0, 0, 0.25);
+        box-shadow: 0rem 0.4rem 0.4rem 0rem rgba(0, 0, 0, 0.25), -0.1px -0.1px 0px 0px #FDFDFD;
     }
 
     .img {
         width: 100%;
         height: auto;
+        -webkit-user-select: none;
         user-select: none;
     }
 
