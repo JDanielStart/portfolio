@@ -145,6 +145,7 @@
         justify-content: center;
         align-items: center;
         border-radius: 10rem;
+        -webkit-user-select: none;
         user-select: none;
     }
 
