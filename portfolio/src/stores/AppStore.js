@@ -176,11 +176,11 @@ export const useAppStore = defineStore('app', () => {
             CardProject: {
                 portfolio: {
                     en:
-                        `This is my portfolio. A personal portfolio is a curated collection of an individual's work, skills, and accomplishments. It typically includes a variety of projects, case studies, and examples that showcase`,
+                        `My main portfolio. The entire page has been created from scratch with its original sketch, design and prototyping in figma and developed in Vue. This page is designed as a showcase of some of my technical skills, originality, creativity and web design.`,
                     es:
-                        `Este es mi portafolio. Un portafolio personal es una colección curada del trabajo, habilidades y logros de un individuo. Típicamente incluye una variedad de proyectos, estudios de caso y ejemplos que muestran`,
+                        `Mi portfolio principal. Toda la página ha sido creada desde cero con su boceto original, diseño y prototipado en figma y desarrollado en Vue. Esta página está pensada como muestra de alguna de mis habilidades técnicas, originalidad, creatividad y diseño web.`,
                     fr:
-                        `Ceci est mon portfolio. Un portfolio personnel est une collection organisée du travail, des compétences et des réalisations d'un individu. Il comprend généralement une variété de projets, d'études de cas et d'exemples qui montrent`,
+                        `Mon portfolio principal. Toute la page a été créée à partir de zéro avec son croquis original, son design et son prototypage dans figma et développée en Vue. Cette page est conçue comme une vitrine de certaines de mes compétences techniques, de mon originalité, de ma créativité et de mon design web.`,
                 }
             },
             CardTechnology: {
@@ -222,7 +222,7 @@ export const useAppStore = defineStore('app', () => {
                     fr: 'CONCEPTION ET FRONTEND',
                 },
                 description: {
-                    en: 'Frontend developer with an understanding of design, user experience, and web development process.',
+                    en: 'Frontend developer with an understanding of design, user experience and web development process.',
                     es: 'Desarrollador Frontend con una comprensión sobre el diseño, la experiencia de usuario y el proceso de desarrollo web.',
                     fr: 'Développeur Frontend avec une compréhension du design, de l\'expérience utilisateur et du processus de développement web.',
                 },
@@ -233,7 +233,46 @@ export const useAppStore = defineStore('app', () => {
                     es: 'DISEÑO Y FRONTEND',
                     fr: 'CONCEPTION ET FRONTEND',
                 },
-            }
+                alt: {
+                    en: 'Funko Pop of a developer',
+                    es: 'Funko Pop de un desarrollador',
+                    fr: 'Funko Pop d\'un développeur',
+                }
+            },
+            Hero: {
+                alt: {
+                    en: 'Developer',
+                    es: 'Desarrollador',
+                    fr: 'Développeur',
+                }
+            },
+            Navigation: {
+                profile: {
+                    en: 'Profile',
+                    es: 'Perfil',
+                    fr: 'Profil',
+                },
+                technology: {
+                    en: 'Technology',
+                    es: 'Tecnología',
+                    fr: 'Technologie',
+                },
+                projects: {
+                    en: 'Projects',
+                    es: 'Proyectos',
+                    fr: 'Projets',
+                },
+                credential: {
+                    en: 'Credential',
+                    es: 'Credencial',
+                    fr: 'Crédential',
+                },
+                sendEmail: {
+                    en: 'Send email',
+                    es: 'Enviar email',
+                    fr: 'Envoyer un email',
+                },
+            },
         };
     
         return texts[component]?.[type]?.[languageMode.value];
@@ -241,6 +280,10 @@ export const useAppStore = defineStore('app', () => {
 
     const toggleDark = () => {
         isDarkMode.value = !isDarkMode.value;
+
+        isDarkMode.value
+            ? document.body.style.backgroundColor = 'var(--general-background-dark)'
+            : document.body.style.backgroundColor = 'var(--general-background-light)';
     }
 
     const changeLanguage = (lang) => {
