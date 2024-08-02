@@ -23,7 +23,7 @@
 <script setup>
     //General imports
     import { storeToRefs } from 'pinia';
-    import { computed, ref, toRefs, watch, onBeforeUnmount } from 'vue';
+    import { computed, ref, toRefs, watch, onMounted, onBeforeUnmount } from 'vue';
 
     //Store imports
     import { useAppStore } from '../../stores/AppStore.js';
@@ -49,7 +49,7 @@
 
     //Actions store
     const { getSwitch } = switchStore;
-    const { createIcon, updateIcon, deleteIcon, getStandardIcon } = iconStore;
+    const { createIcon, updateIcon, deleteIcon, getStandardIcon, changeSize } = iconStore;
 
     //States store
     const { isDarkMode } = storeToRefs(appStore);
@@ -75,6 +75,27 @@
     const isRight = computed(() => isRightStore.value);
     const click = computed(() => clickStore.value);
 
+    // Screen size state
+    const windowWidth = ref(window.innerWidth);
+
+    const updateWindowSize = () => {
+        windowWidth.value = window.innerWidth;
+
+        if (windowWidth.value <= 744) {
+            changeSize(idIconLeft.value, '1.1rem', '1.1rem');
+            changeSize(idIconRight.value, '1.1rem', '1.1rem');
+        } else {
+            changeSize(idIconLeft.value, '1.5rem', '1.5rem');
+            changeSize(idIconRight.value, '1.5rem', '1.5rem');
+        }
+    };
+
+    window.addEventListener('resize', updateWindowSize);
+
+    onMounted(() => {
+        updateWindowSize();
+    });
+
     //Create childrens
     const idIconRight = ref(null);
 
@@ -90,7 +111,8 @@
         colorShapeDark,
         isDisabled
     ], () => {
-        updateIcon(idIconRight.value, {
+        updateIcon({
+            id: idIconRight.value,
             colorLight: colorShapeLight.value,
             colorDark: colorShapeDark.value,
             isDisabled: isDisabled.value,
@@ -111,14 +133,15 @@
         colorShapeDark,
         isDisabled
     ], () => {
-        updateIcon(idIconLeft.value, {
+        updateIcon({
+            id: idIconLeft.value,
             colorLight: colorShapeLight.value,
             colorDark: colorShapeDark.value,
             isDisabled: isDisabled.value,
         });
     });
 
-    //Delete childrens when component unmounts
+    //Delete childrens when component unmounts and others
     onBeforeUnmount(() => {
         if (idIconRight.value) {
             deleteIcon(idIconRight.value);
@@ -202,20 +225,20 @@
     /* Component style */
     .shape {
         display: flex;
-        width: 4.6rem;
-        height: 2.4rem;
-        padding: 0 0.2rem;
+        width: 3.5rem;
+        height: 1.8rem;
+        padding: 0.1rem;
         align-items: center;
         border-radius: 5rem;
+        gap: 0.2rem;
     }
     .circle {
         display: flex;
-        width: 2rem;
-        height: 2rem;
+        width: auto;
+        height: auto;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        flex-shrink: 0;
         border-radius: 20rem;
     }
 
@@ -225,5 +248,13 @@
     
     .right {
         justify-content: flex-end;
+    }
+
+    @media (max-width: 744px) {
+        .shape {
+            width: 2.3rem;
+            height: 1.2rem;
+            padding: 0.1rem;
+        }
     }
 </style>
