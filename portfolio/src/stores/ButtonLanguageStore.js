@@ -16,7 +16,7 @@ export const useButtonLanguage = defineStore('buttonLanguage', () => {
     function createButtonLanguage({
             id = items.size.toString(),
             colorShapeLight = 'var(--general-background-light)',
-            colorShapeDark = 'var(--general-secondary-dark)',
+            colorShapeDark = 'var(--general-background-dark)',
             colorTextLight = 'var(--general-neutral-900-light)',
             colorTextDark = 'var(--general-neutral-900-dark)',
             isDisabled = false,
