@@ -43,7 +43,7 @@ export const useGroupCardTechnology = defineStore('groupCardTechnology', () => {
     //Initializate
     function init() {
         createGroupCardTechnology({
-            id: '0',
+            id: 'technology',
             containerGroupCardTechnology: [
                 cardTechnologyStore.getCardTechnology('design'),
                 cardTechnologyStore.getCardTechnology('frontend'),
