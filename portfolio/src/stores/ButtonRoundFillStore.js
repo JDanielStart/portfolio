@@ -9,7 +9,7 @@ export const useButtonRoundFill = defineStore('buttonRoundFill', () => {
     //Actions
     function createButtonRoundFill({
             id = items.size.toString(),
-            colorShapeLight = 'var(--general-secondary-light)',
+            colorShapeLight = '#1C5C87',
             colorShapeDark = 'var(--general-secondary-dark)',
             colorTextLight = 'var(--general-background-light)',
             colorTextDark = 'var(--general-background-dark)',
