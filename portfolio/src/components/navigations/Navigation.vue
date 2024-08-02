@@ -2,9 +2,10 @@
     <nav
         :class="classesNavigation"
     >
-        <div
+        <a
             :class="classesSection"
-            @click="clickProfile"
+            :aria-label="altProfile"
+            href="#profile"
         >
             <div
                 :style="stylesBar0"
@@ -15,10 +16,11 @@
             >
                 <Icon :state="{id: idIconProfile}"/>
             </div>
-        </div>
-        <div
+        </a>
+        <a
             :class="classesSection"
-            @click="clickCode"
+            :aria-label="altTechnology"
+            href="#technology"
         >
             <div
                 :style="stylesBar1"
@@ -29,10 +31,11 @@
             >
                 <Icon :state="{id: idIconCode}"/>
             </div>
-        </div>
-        <div
+        </a>
+        <a
             :class="classesSection"
-            @click="clickProject"
+            :aria-label="altProject"
+            href="#project"
         >
             <div
                 :style="stylesBar2"
@@ -43,10 +46,11 @@
             >
                 <Icon :state="{id: idIconProject}"/>
             </div>
-        </div>
-        <div
+        </a>
+        <a
             :class="classesSection"
-            @click="clickCredential"
+            :aria-label="altCredential"
+            href="#credential"
         >
             <div
                 :style="stylesBar3"
@@ -57,10 +61,11 @@
             >
                 <Icon :state="{id: idIconCredential}"/>
             </div>
-        </div>
-        <div
+        </a>
+        <a
             :class="classesSection"
-            @click="clickSendEmail"
+            :aria-label="altSendEmail"
+            href="#sendEmail"
         >
             <div
                 :style="stylesBar4"
@@ -71,7 +76,7 @@
             >
                 <Icon :state="{id: idIconSendEmail}"/>
             </div>
-        </div>
+        </a>
     </nav>
 </template>
 
@@ -103,7 +108,8 @@
     const iconStore = useIcon();
 
     //Actions store
-    const { getNavigation, setSelection } = navigationStore;
+    const { getText } = appStore;
+    const { getNavigation } = navigationStore;
     const { createIcon, updateIcon, deleteIcon, getStandardIcon, changeColor } = iconStore;
 
     //States store
@@ -128,6 +134,12 @@
     const colorNotSelectionDark = computed(() => colorNotSelectionDarkStore.value);
     const isDisabled = computed(() => isDisabledStore.value);
 
+    const altProfile = computed(() => getText('Navigation', 'profile'));
+    const altTechnology = computed(() => getText('Navigation', 'technology'));
+    const altProject = computed(() => getText('Navigation', 'projects'));
+    const altCredential = computed(() => getText('Navigation', 'credential'));
+    const altSendEmail = computed(() => getText('Navigation', 'sendEmail'));
+
     //Create childrens
     const idIconProfile = ref(null);
 
@@ -148,7 +160,7 @@
         isDisabled,
     ], () => {
         if (!isDisabled.value) {
-            if (selection.value === 0) {
+            if (selection.value === 'profile') {
                 changeColor(
                     idIconProfile.value, 
                     colorSelectionLight.value,
@@ -189,7 +201,7 @@
         isDisabled,
     ], () => {
         if (!isDisabled.value) {
-            if (selection.value === 1) {
+            if (selection.value === 'technology') {
                 changeColor(
                     idIconCode.value, 
                     colorSelectionLight.value,
@@ -230,7 +242,7 @@
         isDisabled,
     ], () => {
         if (!isDisabled.value) {
-            if (selection.value === 2) {
+            if (selection.value === 'project') {
                 changeColor(
                     idIconProject.value, 
                     colorSelectionLight.value,
@@ -271,7 +283,7 @@
         isDisabled,
     ], () => {
         if (!isDisabled.value) {
-            if (selection.value === 3) {
+            if (selection.value === 'credential') {
                 changeColor(
                     idIconCredential.value, 
                     colorSelectionLight.value,
@@ -312,7 +324,7 @@
         isDisabled,
     ], () => {
         if (!isDisabled.value) {
-            if (selection.value === 4) {
+            if (selection.value === 'sendEmail') {
                 changeColor(
                     idIconSendEmail.value, 
                     colorSelectionLight.value,
@@ -328,8 +340,8 @@
         }
         else {
             updateIcon({
-            id: idIconSendEmail.value,
-            isDisabled: isDisabled.value,
+                id: idIconSendEmail.value,
+                isDisabled: isDisabled.value,
             });
         }
     });
@@ -354,35 +366,6 @@
     });
 
     //Actions
-    const clickProfile = () => {
-        if (!isDisabled.value) {
-            setSelection(id, 0);
-        }
-    };
-
-    const clickCode = () => {
-        if (!isDisabled.value) {
-            setSelection(id, 1);
-        }
-    };
-
-    const clickProject = () => {
-        if (!isDisabled.value) {
-            setSelection(id, 2);
-        }
-    };
-
-    const clickCredential = () => {
-        if (!isDisabled.value) {
-            setSelection(id, 3);
-        }
-    };
-
-    const clickSendEmail = () => {
-        if (!isDisabled.value) {
-            setSelection(id, 4);
-        }
-    };
 
     //Change styles
     const classesNavigation = computed(() => {
@@ -436,7 +419,7 @@
 
         // states classes
         if (!isDisabled.value) {
-            if (selection.value === 0) {
+            if (selection.value === 'profile') {
                 if (isDark.value) {
                     styles.backgroundColor = colorSelectionDark.value;
                 }
@@ -465,7 +448,7 @@
 
         // states classes
         if (!isDisabled.value) {
-            if (selection.value === 1) {
+            if (selection.value === 'technology') {
                 if (isDark.value) {
                     styles.backgroundColor = colorSelectionDark.value;
                 }
@@ -494,7 +477,7 @@
 
         // states classes
         if (!isDisabled.value) {
-            if (selection.value === 2) {
+            if (selection.value === 'project') {
                 if (isDark.value) {
                     styles.backgroundColor = colorSelectionDark.value;
                 }
@@ -523,7 +506,7 @@
 
         // states classes
         if (!isDisabled.value) {
-            if (selection.value === 3) {
+            if (selection.value === 'credential') {
                 if (isDark.value) {
                     styles.backgroundColor = colorSelectionDark.value;
                 }
@@ -552,7 +535,7 @@
 
         // states classes
         if (!isDisabled.value) {
-            if (selection.value === 4) {
+            if (selection.value === 'sendEmail') {
                 if (isDark.value) {
                     styles.backgroundColor = colorSelectionDark.value;
                 }
