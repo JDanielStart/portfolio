@@ -71,7 +71,7 @@ export const useCardProject = defineStore('cardProject', () => {
             idGroupButtonCard: 'portfolio',
             click: () => {
                 console.log('click img project');
-                window.open('https://www.pixilart.com/gallery', '_blank');
+                window.open('https://jdanielstart.github.io/portfolio/', '_blank');
             },
         });
     }
