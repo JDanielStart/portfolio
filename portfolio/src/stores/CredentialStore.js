@@ -59,17 +59,6 @@ export const useCredential = defineStore('credential', () => {
     //Initializate
     function init() {
         createCredential({
-            id: 'credential',
-            name: 'advanced-design-system',
-            urlImageEnglish: '../../public/imgs/credentials/english/advanced-design-system-english.jpg',
-            urlImageFrench: '../../public/imgs/credentials/french/advanced-design-system-french.jpg',
-            urlImageSpanish: '../../public/imgs/credentials/spanish/advanced-design-system-spanish.jpg',
-            urlPDFEnglish: '../../public/pdfs/english/advanced-design-system-english.pdf',
-            urlPDFFrench: '../../public/pdfs/french/advanced-design-system-french.pdf',
-            urlPDFSpanish: '../../public/pdfs/spanish/advanced-design-system-spanish.pdf',
-        });
-
-        createCredential({
             id: 'advanced-design-system',
             name: 'advanced-design-system',
             urlImageEnglish: '../../public/imgs/credentials/english/advanced-design-system-english.jpg',
