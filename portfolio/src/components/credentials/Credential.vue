@@ -71,8 +71,6 @@
     } = toRefs(getCredential(id));
 
     //States
-    const language = ref(languageMode.value);
-
     const name = ref(nameStore.value);
     const urlImageEnglish = ref(urlImageEnglishStore.value);
     const urlImageFrench = ref(urlImageFrenchStore.value);
@@ -88,21 +86,21 @@
     const isFocused = ref(false);
 
     const urlImage = computed(() => {
-        if (language.value === 'en') {
+        if (languageMode.value === 'en') {
             return urlImageEnglish.value;
-        } else if (language.value === 'fr') {
+        } else if (languageMode.value === 'fr') {
             return urlImageFrench.value;
-        } else if (language.value === 'es') {
+        } else if (languageMode.value === 'es') {
             return urlImageSpanish.value;
         }
     });
 
     const urlPDF = computed(() => {
-        if (language.value === 'en') {
+        if (languageMode.value === 'en') {
             return urlPDFEnglish.value;
-        } else if (language.value === 'fr') {
+        } else if (languageMode.value === 'fr') {
             return urlPDFFrench.value;
-        } else if (language.value === 'es') {
+        } else if (languageMode.value === 'es') {
             return urlPDFSpanish.value;
         }
     });
@@ -235,6 +233,7 @@
     const click = () => {
         if (!isDisabled.value && !isOnlyRead.value) {
             isFocused.value = !isFocused.value;
+            console.log(language.value);
         }
     };
 
