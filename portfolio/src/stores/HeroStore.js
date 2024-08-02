@@ -60,7 +60,7 @@ export const useHero = defineStore('hero', () => {
     function init() {
         createHero({
             id: 'hero',
-            urlImg: '../../public/imgs/developer.png',
+            urlImg: '/imgs/developer.png',
             textTitle: 'J. Daniel',
             textSubtitle: 'Frontend Developer',
             idSwitch: 'darkMode',
