@@ -69,6 +69,10 @@ export const useCardProject = defineStore('cardProject', () => {
             idGroupTagText: 'portfolio',
             idGroupTagIcon: 'portfolio',
             idGroupButtonCard: 'portfolio',
+            click: () => {
+                console.log('click img project');
+                window.open('https://www.pixilart.com/gallery', '_blank');
+            },
         });
     }
 
