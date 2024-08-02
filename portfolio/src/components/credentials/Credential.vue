@@ -54,7 +54,7 @@
     const { createIcon, updateIcon, deleteIcon, getStandardIcon } = iconStore;
 
     //States store
-    const { languageMode } = storeToRefs(appStore);
+    const { languageMode, isDarkMode } = storeToRefs(appStore);
 
     const {
         name: nameStore,
@@ -64,6 +64,12 @@
         urlPDFSpanish: urlPDFSpanishStore,
         urlPDFEnglish: urlPDFEnglishStore,
         urlPDFFrench: urlPDFFrenchStore,
+        urlImageEnglishDark: urlImageEnglishDarkStore,
+        urlImageFrenchDark: urlImageFrenchDarkStore,
+        urlImageSpanishDark: urlImageSpanishDarkStore,
+        urlPDFEnglishDark: urlPDFEnglishDarkStore,
+        urlPDFFrenchDark: urlPDFFrenchDarkStore,
+        urlPDFSpanishDark: urlPDFSpanishDarkStore,
         colorShapeLight: colorShapeLightStore,
         colorShapeDark: colorShapeDarkStore,
         isOnlyRead: isOnlyReadStore,
@@ -71,6 +77,8 @@
     } = toRefs(getCredential(id));
 
     //States
+    const isDark = computed(() => isDarkMode.value);
+
     const name = ref(nameStore.value);
     const urlImageEnglish = ref(urlImageEnglishStore.value);
     const urlImageFrench = ref(urlImageFrenchStore.value);
@@ -78,6 +86,12 @@
     const urlPDFSpanish = ref(urlPDFSpanishStore.value);
     const urlPDFEnglish = ref(urlPDFEnglishStore.value);
     const urlPDFFrench = ref(urlPDFFrenchStore.value);
+    const urlImageEnglishDark = ref(urlImageEnglishDarkStore.value);
+    const urlImageFrenchDark = ref(urlImageFrenchDarkStore.value);
+    const urlImageSpanishDark = ref(urlImageSpanishDarkStore.value);
+    const urlPDFEnglishDark = ref(urlPDFEnglishDarkStore.value);
+    const urlPDFFrenchDark = ref(urlPDFFrenchDarkStore.value);
+    const urlPDFSpanishDark = ref(urlPDFSpanishDarkStore.value);
     const colorShapeLight = ref(colorShapeLightStore.value);
     const colorShapeDark = ref(colorShapeDarkStore.value);
     const isOnlyRead = ref(isOnlyReadStore.value);
@@ -86,22 +100,44 @@
     const isFocused = ref(false);
 
     const urlImage = computed(() => {
-        if (languageMode.value === 'en') {
-            return urlImageEnglish.value;
-        } else if (languageMode.value === 'fr') {
-            return urlImageFrench.value;
-        } else if (languageMode.value === 'es') {
-            return urlImageSpanish.value;
+        if (!isDark.value) {
+            if (languageMode.value === 'en') {
+                return urlImageEnglish.value;
+            } else if (languageMode.value === 'fr') {
+                return urlImageFrench.value;
+            } else if (languageMode.value === 'es') {
+                return urlImageSpanish.value;
+            }
+        }
+        else {
+            if (languageMode.value === 'en') {
+                return urlImageEnglishDark.value;
+            } else if (languageMode.value === 'fr') {
+                return urlImageFrenchDark.value;
+            } else if (languageMode.value === 'es') {
+                return urlImageSpanishDark.value;
+            }
         }
     });
 
     const urlPDF = computed(() => {
-        if (languageMode.value === 'en') {
-            return urlPDFEnglish.value;
-        } else if (languageMode.value === 'fr') {
-            return urlPDFFrench.value;
-        } else if (languageMode.value === 'es') {
-            return urlPDFSpanish.value;
+        if (!isDark.value) {
+            if (languageMode.value === 'en') {
+                return urlPDFEnglish.value;
+            } else if (languageMode.value === 'fr') {
+                return urlPDFFrench.value;
+            } else if (languageMode.value === 'es') {
+                return urlPDFSpanish.value;
+            }
+        }
+        else {
+            if (languageMode.value === 'en') {
+                return urlPDFEnglishDark.value;
+            } else if (languageMode.value === 'fr') {
+                return urlPDFFrenchDark.value;
+            } else if (languageMode.value === 'es') {
+                return urlPDFSpanishDark.value;
+            }
         }
     });
 
