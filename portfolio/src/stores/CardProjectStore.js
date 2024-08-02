@@ -60,7 +60,7 @@ export const useCardProject = defineStore('cardProject', () => {
     function init() {
         createCardProject({
             id: 'portfolio',
-            srcImg: '/imgs/projects/portfolio.jpg',
+            srcImg: 'portfolio/imgs/projects/portfolio.jpg',
             colorShapeLight: 'var(--general-neutral-white-light)',
             colorShapeDark: '#2D2B41',
             colorTextLight: 'var(--general-neutral-900-light)',
