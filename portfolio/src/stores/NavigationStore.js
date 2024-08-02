@@ -9,7 +9,7 @@ export const useNavigation = defineStore('navigation', () => {
     //Actions
     function createNavigation({
             id = items.size.toString(),
-            selection = 0,
+            selection = '',
             colorSelectionLight = 'var(--general-info-light)',
             colorSelectionDark = 'var(--general-info-dark)',
             colorNotSelectionLight = 'var(--general-neutral-600-light)',
@@ -57,6 +57,8 @@ export const useNavigation = defineStore('navigation', () => {
     function init() {
         createNavigation({
             id: 'navigation',
+            selection: 'profile',
+            isDisabled: false
         });
     }
 
