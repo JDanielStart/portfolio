@@ -48,10 +48,8 @@
     /* Component style */
     .shape {
         display: flex;
-        align-items: flex-start;
-        align-content: flex-start;
+        justify-content: center;
         gap: 0.4rem;
-        align-self: stretch;
         flex-wrap: wrap;
     }
 </style>
