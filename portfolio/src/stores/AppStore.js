@@ -289,8 +289,6 @@ export const useAppStore = defineStore('app', () => {
 
     const getThemePreference = () => {
         const savedTheme = localStorage.getItem('isDarkMode');
-        console.log(localStorage.getItem('isDarkMode'));
-
         return savedTheme === 'true';
     }
 
