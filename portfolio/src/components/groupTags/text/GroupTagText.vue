@@ -48,6 +48,7 @@
     /* Component style */
     .shape {
         display: flex;
+        justify-content: center;
         gap: 0.4rem;
         flex-wrap: wrap;
     }
