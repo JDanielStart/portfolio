@@ -49,7 +49,7 @@ export const useButtonCardWhiteboard = defineStore('buttonCardWhiteboard', () =>
         createButtonCardWhiteboard({
             id: 'Whiteboard',
             click: () => {
-                window.open('../public/imgs/sketches/portfolio-sketch.png', '_blank');
+                window.open('imgs/sketches/portfolio-sketch.png', '_blank');
                 console.log('ButtonCardWhiteboard clicked');
             }
         });
