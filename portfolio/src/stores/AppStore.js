@@ -304,9 +304,31 @@ export const useAppStore = defineStore('app', () => {
             : document.body.style.backgroundColor = 'var(--general-background-light)';
     }
 
+    const getUserLanguage = () => {
+        let lang = '';
+        if (navigator.languages && navigator.languages.length) {
+            lang = navigator.languages[0].substring(0, 2);
+        } else {
+            lang =  (navigator.language || navigator.userLanguage).substring(0, 2);
+        }
+
+        if (lang !== 'en' && lang !== 'es' && lang !== 'fr') {
+            lang = 'en';
+        }
+
+        return lang;
+    };
+
     const changeLanguage = (lang) => {
         languageMode.value = lang;
     }
+
+    //Initializate
+    function init() {
+        changeLanguage(getUserLanguage());
+    }
+
+    init();
 
     return {
         //States
