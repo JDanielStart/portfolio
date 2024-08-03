@@ -121,6 +121,8 @@
 
     document.documentElement.style.scrollBehavior = 'smooth';
     document.documentElement.style.scrollPaddingTop = `${sectionMargin}px`;
+
+
   });
 
   onBeforeUnmount(() => {
@@ -206,16 +208,13 @@
     scroll-behavior: smooth;
     scroll-padding-top: 10rem;
   }
-
-  body {
-    background-color: var(--general-background-light);
-  }
   
   .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 25rem;
+    transition: background-color 0.3s, color 0.3s;
   }
 
   .buttonLanguage {
