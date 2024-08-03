@@ -55,17 +55,28 @@ export const useSwitch = defineStore('switch', () => {
         items.delete(id);
     }
 
-    function toggleRight(id) {
-        getSwitch(id).isRight = !getSwitch(id).isRight;
+    function toggleRight(id, isRight = null) {
+        if (isRight !== null) {
+            getSwitch(id).isRight = !isRight;
+        }
+        else {
+            getSwitch(id).isRight = !getSwitch(id).isRight;
+        }
     }
 
     //Initializate
     function init() {
         createSwitch({
             id: 'darkMode',
-            click: () => {
-                toggleRight('darkMode');
-                appStore.toggleDark();
+            click: (isDarkMode = null) => {
+                if (isDarkMode !== null) {
+                    toggleRight('darkMode', isDarkMode);
+                    appStore.toggleDark(isDarkMode);
+                }
+                else {
+                    toggleRight('darkMode');
+                    appStore.toggleDark();
+                }
                 console.log(`ButtonSwitch clicked`)
             }
         });
