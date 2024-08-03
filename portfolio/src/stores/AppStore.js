@@ -278,8 +278,28 @@ export const useAppStore = defineStore('app', () => {
         return texts[component]?.[type]?.[languageMode.value];
     }
 
-    const toggleDark = () => {
-        isDarkMode.value = !isDarkMode.value;
+    const saveThemePreference = () => {
+        localStorage.setItem('isDarkMode', isDarkMode.value.toString());
+    };
+
+    const isLoadThemePreference = () => {
+        const savedTheme = localStorage.getItem('isDarkMode');
+        return savedTheme !== null;
+    };
+
+    const getThemePreference = () => {
+        const savedTheme = localStorage.getItem('isDarkMode');
+        console.log(localStorage.getItem('isDarkMode'));
+
+        return savedTheme === 'true';
+    }
+
+    const toggleDark = (isDark = null) => {
+        if (isDark !== null) {
+            isDarkMode.value = isDark;
+        } else {
+            isDarkMode.value = !isDarkMode.value;
+        }
 
         isDarkMode.value
             ? document.body.style.backgroundColor = 'var(--general-background-dark)'
@@ -297,6 +317,9 @@ export const useAppStore = defineStore('app', () => {
 
         //Actions
         getText,
+        saveThemePreference,
+        isLoadThemePreference,
+        getThemePreference,
         toggleDark,
         changeLanguage
     }
