@@ -269,7 +269,6 @@
     const click = () => {
         if (!isDisabled.value && !isOnlyRead.value) {
             isFocused.value = !isFocused.value;
-            console.log(language.value);
         }
     };
 
