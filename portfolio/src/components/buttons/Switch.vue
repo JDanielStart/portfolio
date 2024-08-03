@@ -48,6 +48,7 @@
     const iconStore = useIcon();
 
     //Actions store
+    const { saveThemePreference, isLoadThemePreference, getThemePreference } = appStore;
     const { getSwitch } = switchStore;
     const { createIcon, updateIcon, deleteIcon, getStandardIcon, changeSize } = iconStore;
 
@@ -75,7 +76,7 @@
     const isRight = computed(() => isRightStore.value);
     const click = computed(() => clickStore.value);
 
-    // Screen size state
+    //Screen size state
     const windowWidth = ref(window.innerWidth);
 
     const updateWindowSize = () => {
@@ -92,7 +93,23 @@
 
     window.addEventListener('resize', updateWindowSize);
 
+    const detectChangeTheme = () => {
+        const havePreference = isLoadThemePreference();
+
+        if (!havePreference) {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+            const matches = mediaQuery.matches;
+            click.value(matches);
+        }
+        else {
+            click.value(getThemePreference());
+        }
+    };
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', detectChangeTheme);
+
     onMounted(() => {
+        detectChangeTheme();
         updateWindowSize();
     });
 
@@ -149,12 +166,15 @@
         if (idIconLeft.value) {
             deleteIcon(idIconLeft.value);
         }
+        mediaQuery.removeEventListener('detectChangeTheme', detectChangeTheme);
+        window.removeEventListener('resize', updateWindowSize);
     });
 
     //Actions
     const clickButton = () => {
         if (!isDisabled.value) {
             click.value();
+            saveThemePreference();
         }
     };
 
