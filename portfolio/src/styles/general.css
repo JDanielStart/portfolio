@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600&family=Audiowide&family=Anta&display=swap');
 
 :root {
+    /** Default colors **/
+    --background-color: #FDFDFD;
+    --text-color: #202020;
+
     /** General colors **/
     --general-background-light: #FDFDFD;
     --general-background-dark: #0F2B56;
@@ -68,4 +72,9 @@
     --font-size-21: 2.1rem;
     --font-size-34: 3.4rem;
     --font-size-55: 5.5rem;
+  }
+
+  body.dark-mode {
+    --background-color: #0F2B56;
+    --text-color: #FDFDFD;
   }
