@@ -1,5 +1,7 @@
 <template>
-    <div>
+    <div
+        tabindex="0"
+    >
         <h3
             :style="stylesTitle"
             :class="classesTitle"
