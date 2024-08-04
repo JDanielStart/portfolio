@@ -11,6 +11,7 @@
             <div
                 :style="stylesText"
                 :class="classesText"
+                tabindex="0"
             >
                 {{ text }}
             </div>
