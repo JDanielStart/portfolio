@@ -7,6 +7,7 @@
         :height="height"
         :viewBox="viewBox"
         @click="clickIcon"
+        @keydown.enter="clickIcon"
     >
         <component
             :is="iconComponent"
