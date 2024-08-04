@@ -23,8 +23,15 @@
                 :class="classesImg"
                 :src="urlImage"
                 :alt="altText"
+                @click="clickFunko"
+                @keydown.enter="clickFunko"
+                tabindex="0"
+                ref="funkoElement"
             >
-            <ButtonRoundFill :state="{id: idButtonRoundFill}"/>
+            <ButtonRoundFill
+                :state="{id: idButtonRoundFill}"
+                :class="animateButton"
+            />
         </div>
     </div>
 </template>
@@ -32,7 +39,7 @@
 <script setup>
     //General imports
     import { storeToRefs } from 'pinia';
-    import { computed, toRefs } from 'vue';
+    import { computed, toRefs, ref } from 'vue';
 
     //Store imports
     import { useAppStore } from '../../stores/AppStore.js';
@@ -82,7 +89,16 @@
     const text = computed(() => getText('CtaEnd'));
     const altText = computed(() => getText('CtaEnd', 'alt'));
 
+    const funkoElement = ref(null);
+
     //Actions
+    const clickFunko = () => {
+        if (funkoElement.value) {
+                funkoElement.value.classList.remove('animate-funko');
+                void funkoElement.value.offsetWidth;
+                funkoElement.value.classList.add('animate-funko');
+        }
+    };
 
     //Change styles
     const classes = computed(() => {
@@ -113,6 +129,7 @@
         const classes= {};
 
         classes['img'] = true;
+        classes['animate-funko'] = true;
 
         return classes;
     });
@@ -135,6 +152,14 @@
         }
 
         return styles;
+    });
+
+    const animateButton = computed(() => {
+        const classes = {};
+
+        classes['animate-button'] = true;
+
+        return classes;
     });
 </script>
 
@@ -187,8 +212,13 @@
     }
 
     /* Animation */
-    .vibrate{
-        animation:vibrate 1.5s linear both
+    .animate-button {
+        animation: glow 1.5s ease-in-out infinite;
+    }
+
+    .animate-funko {
+        animation:
+            vibrate 0.3s linear both;
     }
     
     @keyframes vibrate{
@@ -209,6 +239,18 @@
         }
         100%{
             transform:translate(0)
+        }
+    }
+
+    @keyframes glow {
+        0% {
+          box-shadow: 0 0 1px #3CB371, 0 0 1px #3CB371 , 0 0 2px #3CB371, 0 0 4px #3CB371, 0 0 8px #3CB371, 0 0 16px #3CB371;
+        }
+        50% {
+          box-shadow: 0 0 2px #3CB371, 0 0 2px #3CB371, 0 0 4px #3CB371, 0 0 8px #3CB371, 0 0 16px #3CB371, 0 0 32px #3CB371;
+        }
+        100% {
+          box-shadow: 0 0 1px #3CB371, 0 0 1px #3CB371, 0 0 2px #3CB371, 0 0 4px #3CB371, 0 0 8px #3CB371, 0 0 16px #3CB371;
         }
     }
 </style>
