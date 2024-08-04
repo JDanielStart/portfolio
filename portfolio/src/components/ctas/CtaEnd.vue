@@ -202,6 +202,7 @@
         height: 7.5rem;
         -webkit-user-select: none;
         user-select: none;
+        cursor: pointer;
     }
 
     .text {
