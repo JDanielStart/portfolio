@@ -8,12 +8,14 @@
             <div
                 :style="stylesTitle"
                 :class="classesTitle"
+                tabindex="0"
             >
                 {{ title }}
             </div>
             <div
                 :style="stylesDescription"
                 :class="classesDescription"
+                tabindex="0"
             >
                 {{ description }}
             </div>
