@@ -34,7 +34,10 @@
                         >
                             {{ textSubtitle }}
                         </h2>
-                        <Switch :state="{ id: idSwitch }"/>
+                        <Switch
+                            :state="{ id: idSwitch }"
+                            :class="animationSwitch"
+                        />
                     </div>
                 </div>
             </div>
@@ -156,6 +159,7 @@
         const classes= {};
 
         classes['shape-hero'] = true;
+        classes['animation-shape'] = true;
 
         return classes;
     });
@@ -199,6 +203,7 @@
         const classes= {};
 
         classes['img-hero'] = true;
+        classes['animation-img'] = true;
 
         return classes;
     });
@@ -215,6 +220,7 @@
         const classes= {};
 
         classes['title'] = true;
+        classes['animation-title'] = true;
 
         return classes;
     });
@@ -249,6 +255,7 @@
         const classes= {};
 
         classes['subtitle'] = true;
+        classes['animation-subtitle'] = true;
 
         return classes;
     });
@@ -275,6 +282,7 @@
         const classes= {};
 
         classes['icons'] = true;
+        classes['animation-icons'] = true;
 
         return classes;
     });
@@ -283,6 +291,15 @@
         const classes= {};
 
         classes['navigation'] = true;
+        classes['animation-navigation'] = true;
+
+        return classes;
+    });
+
+    const animationSwitch = computed(() => {
+        const classes= {};
+
+        classes['animation-switch'] = true;
 
         return classes;
     });
@@ -391,6 +408,109 @@
 
         .subtitle {
             font-size: var(--font-size-13);
+        }
+    }
+
+    /* Animation */
+    .animation-shape {
+        opacity: 0;
+        animation: slideInFromLeft 0.5s ease-out forwards;
+    }
+
+    .animation-title {
+        opacity: 0;
+        animation: text-focus-in 1.5s ease-in-out forwards;
+    }
+
+    .animation-subtitle {
+        opacity: 0;
+        animation: text-focus-in 1.5s ease-in-out 0.5s forwards;
+    }
+    .animation-switch {
+        opacity: 0;
+        animation:
+            invisibility 1s ease-in-out 1.5s forwards,
+            jello-horizontal 1s ease-in-out 1.5s forwards;
+    }
+
+    .animation-navigation {
+        opacity: 0;
+        animation: scale-in-center 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s both;
+    }
+
+    .animation-img {
+        opacity: 0;
+        animation: invisibility 1s ease-in-out 3s forwards;
+    }
+
+    .animation-icons {
+        opacity: 0;
+        animation: slideInFromLeft 1s ease-out 3s forwards;
+    }
+
+    @keyframes invisibility {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideInFromLeft {
+        0% {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes text-focus-in {
+        0% {
+            filter: blur(12px);
+            opacity: 0;
+        }
+        100% {
+            filter: blur(0px);
+            opacity: 1;
+        }
+    }
+
+    @keyframes jello-horizontal {
+        0% {
+            transform: scale3d(1, 1, 1);
+        }
+        30% {
+            transform: scale3d(1.25, 0.75, 1);
+        }
+        40% {
+            transform: scale3d(0.75, 1.25, 1);
+        }
+        50% {
+            transform: scale3d(1.15, 0.85, 1);
+        }
+        65% {
+            transform: scale3d(0.95, 1.05, 1);
+        }
+        75% {
+            transform: scale3d(1.05, 0.95, 1);
+        }
+        100% {
+            transform: scale3d(1, 1, 1);
+        }
+      }
+
+    @keyframes scale-in-center {
+        0% {
+            transform: scale(0);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
         }
     }
 </style>
