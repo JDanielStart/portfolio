@@ -20,6 +20,7 @@
                     <h1
                         :style="stylesTitle"
                         :class="classesTitle"
+                        tabindex="0"
                     >
                         {{ textTitle }}
                     </h1>
@@ -29,6 +30,7 @@
                         <h2
                             :style="stylesSubtitle"
                             :class="classesSubtitle"
+                            tabindex="0"
                         >
                             {{ textSubtitle }}
                         </h2>
