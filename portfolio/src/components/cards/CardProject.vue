@@ -2,6 +2,7 @@
     <div
         :style="styles"
         :class="classesFigure"
+        tabindex="0"
     >
         <div
             :class="opacity"
@@ -11,16 +12,20 @@
                 :alt="textTitle"
                 :class="classesImg"
                 @click="clickImg"
+                @keydown.enter="clickImg"
+                tabindex="0"
             />
         </div>
         <section>
             <h2
                 :class="classesTitle"
+                tabindex="0"
             >
             {{ textTitle }}
             </h2>
             <h3
                 :class="classesDescription"
+                tabindex="0"
             >
                 {{ textDescription }}
             </h3>
