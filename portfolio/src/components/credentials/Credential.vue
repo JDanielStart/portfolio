@@ -2,16 +2,33 @@
     <div>
         <div
             :class="classes"
-            @click="click"
+            @focusin="focusIn"
             @focusout="focusOut"
             tabindex="0"
+            ref="containerCredential"
         >
             <div
                 :class="icons"
+                tabindex="0"
             >
-                <Icon :state="{ id: idIconDownload }"/>
-                <Icon :state="{ id: idIconShare }"/>
-                <Icon :state="{ id: idIconOpen }"/>
+                <Icon
+                    :state="{ id: idIconDownload }"
+                    @click="click"
+                    @keydown.enter="click"
+                    tabindex="0"
+                />
+                <Icon
+                    :state="{ id: idIconShare }"
+                    @click="click"
+                    @keydown.enter="click"
+                    tabindex="0"
+                />
+                <Icon
+                    :state="{ id: idIconOpen }"
+                    @click="click"
+                    @keydown.enter="click"
+                    tabindex="0"
+                />
             </div>
             <img
                 :class="image"
@@ -98,6 +115,7 @@
     const isDisabled = ref(isDisabledStore.value);
 
     const isFocused = ref(false);
+    const containerCredential = ref(null);
 
     const urlImage = computed(() => {
         if (!isDark.value) {
@@ -268,14 +286,26 @@
     //Actions
     const click = () => {
         if (!isDisabled.value && !isOnlyRead.value) {
-            isFocused.value = !isFocused.value;
+            isFocused.value = false;
+        }
+    };
+
+    const focusIn = () => {
+        if (!isDisabled.value && !isOnlyRead.value) {
+            isFocused.value = true;
         }
     };
 
     const focusOut = () => {
-        if (!isDisabled.value && !isOnlyRead.value) {
-            isFocused.value = false;
-        }
+        setTimeout(() => {
+            if (
+                containerCredential.value
+                &&
+                !containerCredential.value.contains(document.activeElement)
+            ) {
+                isFocused.value = false;
+            }
+        }, 0);
     };
 
     //Change styles
