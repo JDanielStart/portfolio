@@ -3,6 +3,8 @@
         :style="styles"
         :class="classes"
         @click="clickButton"
+        @keydown.enter="clickButton"
+        tabindex="0"
     >
         {{ text }}
         <Icon :state="{ id: idIcon }" />
