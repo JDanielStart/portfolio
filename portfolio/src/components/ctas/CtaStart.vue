@@ -22,6 +22,7 @@
         </div>
         <ButtonRoundFill
             :state="{id: idButtonRoundFill}"
+            :class="animationButton"
         />
     </div>
 </template>
@@ -122,7 +123,7 @@
         const classes= {};
 
         classes['description'] = true;
-
+        
         return classes;
     });
 
@@ -137,6 +138,15 @@
         }
 
         return styles;
+    });
+
+    const animationButton = computed(() => {
+        const classes= {};
+
+        classes['buttonCTA'] = true;
+        classes['animationButton'] = true;
+
+        return classes;
     });
 </script>
 
@@ -170,5 +180,50 @@
         font-family: var(--font-family-secondary);
         font-size: var(--font-size-21);
         line-height: 2.4rem;
+    }
+
+    /* Animation */
+    .animationButton {
+        opacity: 0;
+        animation:
+            invisibility 2s ease-in-out 4.5s forwards,
+            float 4s ease-in-out 4.5s infinite,
+            glow 1.5s ease-in-out 5s infinite;
+    }
+
+    @keyframes float {
+        0% {
+            text-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+            transform: translatey(0px);
+        }
+        50% {
+            text-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
+            transform: translatey(-5px);
+        }
+        100% {
+            text-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+            transform: translatey(0px);
+        }
+    }
+
+    @keyframes invisibility {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes glow {
+        0% {
+          box-shadow: 0 0 1px #3CB371, 0 0 1px #3CB371 , 0 0 2px #3CB371, 0 0 4px #3CB371, 0 0 8px #3CB371, 0 0 16px #3CB371;
+        }
+        50% {
+          box-shadow: 0 0 2px #3CB371, 0 0 2px #3CB371, 0 0 4px #3CB371, 0 0 8px #3CB371, 0 0 16px #3CB371, 0 0 32px #3CB371;
+        }
+        100% {
+          box-shadow: 0 0 1px #3CB371, 0 0 1px #3CB371, 0 0 2px #3CB371, 0 0 4px #3CB371, 0 0 8px #3CB371, 0 0 16px #3CB371;
+        }
     }
 </style>
