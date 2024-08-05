@@ -376,6 +376,7 @@
         height: 10rem;
         -webkit-user-select: none;
         user-select: none;
+        cursor: pointer;
     }
 
     .text {
@@ -412,6 +413,7 @@
         align-items: center;
         align-content: center;
         gap: 1.2rem;
+        cursor: pointer;
     }
 
     .navigation {
@@ -571,8 +573,14 @@
         0% {
             transform: scale(1) rotate(0deg);
         }
-        50% {
+        25% {
             transform: scale(1.05) rotate(3deg);
+        }
+        50% {
+            transform: scale(1) rotate(0deg);
+        }
+        75% {
+            transform: scale(1.02) rotate(2deg);
         }
           100% {
             transform: scale(1) rotate(0deg);
