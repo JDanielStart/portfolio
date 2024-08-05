@@ -13,6 +13,10 @@
                     :class="classesImg"
                     :src="urlImg"
                     :alt="altText"
+                    @click="animationImg"
+                    @keydown.enter="animationImg"
+                    ref="img"
+                    tabindex="0"
                 />
                 <div
                     :class="classesText"
@@ -43,6 +47,10 @@
             </div>
             <div
                 :class="classesIcons"
+                @click="animationIcons"
+                @keydown.enter="animationIcons"
+                ref="icons"
+                tabindex="0"
             >
                 <Icon :state="{ id: 'Github' }"/>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="21" viewBox="0 0 14 21" fill="none">
@@ -84,7 +92,7 @@
 <script setup>
     //General imports
     import { storeToRefs } from 'pinia';
-    import { computed, toRefs } from 'vue';
+    import { computed, toRefs, ref } from 'vue';
 
     //Store imports
     import { useAppStore } from '../../stores/AppStore.js';
@@ -148,11 +156,34 @@
 
     const altText = computed(() => getText('Hero', 'alt'));
 
+    const img = ref(null);
+    const icons = ref(null);
+
     //Create childrens
 
     //Delete childrens when component unmounts
 
     //Actions
+    const animationImg = () => {
+        const animationImg = img.value;
+        animationImg.classList.remove('event-animation-img');
+        void animationImg.offsetWidth;
+        animationImg.classList.add('event-animation-img');
+    };
+
+    const animationIcons = () => {
+        const animationIcons = icons.value;
+        animationIcons.classList.remove('event-animation-icons');
+        void animationIcons.offsetWidth;
+        animationIcons.classList.add('event-animation-icons');
+    };
+
+    const animationTitle = () => {
+        const animationTitle = title.value;
+        animationTitle.classList.remove('event-animation-title');
+        void animationTitle.offsetWidth;
+        animationTitle.classList.add('event-animation-title');
+    };
 
     //Change styles
     const classes = computed(() => {
@@ -443,9 +474,19 @@
         animation: invisibility 1s ease-in-out 3s forwards;
     }
 
+    .event-animation-img {
+        opacity: 1;
+        animation: slide-out-blurred-top 0.5s ease-in-out forwards;
+    }
+
     .animation-icons {
         opacity: 0;
         animation: slideInFromLeft 1s ease-out 3s forwards;
+    }
+
+    .event-animation-icons {
+        opacity: 1;
+        animation: jello-horizontal 1s ease-in-out forwards;
     }
 
     @keyframes invisibility {
@@ -501,7 +542,7 @@
         100% {
             transform: scale3d(1, 1, 1);
         }
-      }
+    }
 
     @keyframes scale-in-center {
         0% {
@@ -511,6 +552,39 @@
         100% {
             transform: scale(1);
             opacity: 1;
+        }
+    }
+
+    @keyframes flip-scale-down-ver {
+        0% {
+            transform: scale(1) rotateY(0);
+        }
+        50% {
+            transform: scale(0.4) rotateY(-180deg);
+        }
+        100% {
+            transform: scale(1) rotateY(0);
+        }
+    }
+
+    @keyframes slide-out-blurred-top {
+        0% {
+            transform: scale(1) rotate(0deg);
+        }
+        50% {
+            transform: scale(1.05) rotate(3deg);
+        }
+          100% {
+            transform: scale(1) rotate(0deg);
+        }
+    }
+
+    @keyframes colorSweep {
+        0% {
+          color: var(--general-neutral-300-light);
+        }
+        100% {
+          color: var(--general-neutral-300-light);
         }
     }
 </style>
