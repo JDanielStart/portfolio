@@ -74,6 +74,10 @@
     --font-size-55: 5.5rem;
   }
 
+  * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
   body.dark-mode {
     --background-color: #0F2B56;
     --text-color: #FDFDFD;
