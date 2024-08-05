@@ -13,6 +13,7 @@
       :class="classesButtonLanguageContainer"
     >
       <ButtonLanguage
+        :class="classesButtonLanguage"
         :state="{id: 'language'}"
       />
     </div>
@@ -149,8 +150,16 @@
   const classesButtonLanguageContainer = computed(() => {
     const classes= {};
 
-    classes['buttonLanguage'] = true;
+    classes['buttonLanguageContainer'] = true;
     classes['animation-button-language'] = true;
+
+    return classes;
+  });
+
+  const classesButtonLanguage = computed(() => {
+    const classes= {};
+
+    classes['buttonLanguage'] = true;
 
     return classes;
   });
@@ -218,12 +227,15 @@
     transition: background-color 0.3s, color 0.3s;
   }
 
-  .buttonLanguage {
+  .buttonLanguageContainer {
     position: fixed;
       top: 20rem;
       right: 0.5rem;
       z-index: 1;
-      opacity: 0;
+  }
+
+  .buttonLanguage {
+    pointer-events: auto;
   }
 
   .hero {
@@ -252,7 +264,7 @@
   }
 
   @media (min-width: 500px) and (max-width: 744px) {
-    .buttonLanguage {
+    .buttonLanguageContainer {
       position: fixed;
       top: 17rem;
       right: 0.5rem;
@@ -261,7 +273,7 @@
   }
 
   @media (min-width: 745px) {
-    .buttonLanguage {
+    .buttonLanguageContainer {
       position: fixed;
       top: 21rem;
       right: -28.5rem;
@@ -269,6 +281,7 @@
       justify-content: center;
       width:100%;
       z-index: 1;
+      pointer-events: none;
     }
   }
 
