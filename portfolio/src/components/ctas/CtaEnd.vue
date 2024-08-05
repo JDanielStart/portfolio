@@ -23,10 +23,6 @@
                 :class="classesImg"
                 :src="urlImage"
                 :alt="altText"
-                @click="clickFunko"
-                @keydown.enter="clickFunko"
-                tabindex="0"
-                ref="funkoElement"
             >
             <ButtonRoundFill
                 :state="{id: idButtonRoundFill}"
@@ -89,16 +85,7 @@
     const text = computed(() => getText('CtaEnd'));
     const altText = computed(() => getText('CtaEnd', 'alt'));
 
-    const funkoElement = ref(null);
-
     //Actions
-    const clickFunko = () => {
-        if (funkoElement.value) {
-                funkoElement.value.classList.remove('animate-funko');
-                void funkoElement.value.offsetWidth;
-                funkoElement.value.classList.add('animate-funko');
-        }
-    };
 
     //Change styles
     const classes = computed(() => {
@@ -214,33 +201,15 @@
 
     /* Animation */
     .animate-button {
-        animation: glow 1.5s ease-in-out infinite;
+        animation:
+            float 4s ease-in-out infinite,
+            glow 1.5s ease-in-out infinite;
     }
 
     .animate-funko {
         animation:
-            vibrate 0.3s linear both;
-    }
-    
-    @keyframes vibrate{
-        0%{
-            transform:translate(0)
-        }
-        20%{
-            transform:translate(-2px,2px)
-        }
-        40%{
-            transform:translate(-2px,-2px)
-        }
-        60%{
-            transform:translate(2px,2px)
-        }
-        80%{
-            transform:translate(2px,-2px)
-        }
-        100%{
-            transform:translate(0)
-        }
+            float 4s ease-in-out infinite,
+            glow-png 2s ease-in-out infinite;
     }
 
     @keyframes glow {
@@ -252,6 +221,33 @@
         }
         100% {
           box-shadow: 0 0 1px #3CB371, 0 0 1px #3CB371, 0 0 2px #3CB371, 0 0 4px #3CB371, 0 0 8px #3CB371, 0 0 16px #3CB371;
+        }
+    }
+
+    @keyframes glow-png {
+        0% {
+            filter: drop-shadow(0 0 1px #3CB371) drop-shadow(0 0 1px #3CB371) drop-shadow(0 0 2px #3CB371) drop-shadow(0 0 4px #3CB371) drop-shadow(0 0 8px #3CB371) drop-shadow(0 0 16px #3CB371);
+        }
+        25% {
+            filter: drop-shadow(0 0 2px #3CB371) drop-shadow(0 0 2px #3CB371) drop-shadow(0 0 4px #3CB371) drop-shadow(0 0 8px #3CB371) drop-shadow(0 0 16px #3CB371) drop-shadow(0 0 32px #3CB371);
+        }
+        100% {
+            filter: drop-shadow(0 0 1px #3CB371) drop-shadow(0 0 1px #3CB371) drop-shadow(0 0 2px #3CB371) drop-shadow(0 0 4px #3CB371) drop-shadow(0 0 8px #3CB371) drop-shadow(0 0 16px #3CB371);
+        }
+    }
+
+    @keyframes float {
+        0% {
+            text-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+            transform: translatey(0px);
+        }
+        50% {
+            text-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
+            transform: translatey(-5px);
+        }
+        100% {
+            text-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+            transform: translatey(0px);
         }
     }
 </style>
