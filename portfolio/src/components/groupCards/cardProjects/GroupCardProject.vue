@@ -49,7 +49,7 @@
     .shape {
         display: flex;
         justify-content: center;
-        gap: 4rem 2.4rem;
+        gap: 10rem 2.4rem;
         flex-wrap: wrap;
         max-width: 120rem;
     }
