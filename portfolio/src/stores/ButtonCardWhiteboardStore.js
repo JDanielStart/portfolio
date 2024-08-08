@@ -53,6 +53,11 @@ export const useButtonCardWhiteboard = defineStore('buttonCardWhiteboard', () =>
                 console.log('ButtonCardWhiteboard clicked');
             }
         });
+
+        createButtonCardWhiteboard({
+            id: 'touristGC',
+            isDisabled: true
+        });
     }
 
     init();
