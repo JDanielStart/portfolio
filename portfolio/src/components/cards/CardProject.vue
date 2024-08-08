@@ -43,6 +43,7 @@
             />
         </section>
         <ButtonsCard
+            :class="classesContainerButtonCard"
             :state="{ id: idGroupButtonCard }"
         />
     </div>
@@ -182,30 +183,12 @@
 
             const { containerGroupTagText } = getGroupTagText(idGroupTagText.value);
             containerGroupTagText.forEach(({ id }) => updateTagText({ id, isDisabled: false }));
-
-            const { idButtonCardWhiteboard } = getGroupButtonCard(idGroupButtonCard.value);
-            updateButtonCardWhiteboard({ id: idButtonCardWhiteboard, isDisabled: false });
-
-            const { idButtonCardFigma } = getGroupButtonCard(idGroupButtonCard.value);
-            updateButtonCardFigma({ id: idButtonCardFigma, isDisabled: false });
-
-            const { idButtonCardGithub } = getGroupButtonCard(idGroupButtonCard.value);
-            updateButtonCardGithub({ id: idButtonCardGithub, isDisabled: false });
         } else {
             const { containerGroupTagIcon } = getGroupTagIcon(idGroupTagIcon.value);
             containerGroupTagIcon.forEach(({ id }) => updateTagIcon({ id, isDisabled: true }));
 
             const { containerGroupTagText } = getGroupTagText(idGroupTagText.value);
             containerGroupTagText.forEach(({ id }) => updateTagText({ id, isDisabled: true }));
-
-            const { idButtonCardWhiteboard } = getGroupButtonCard(idGroupButtonCard.value);
-            updateButtonCardWhiteboard({ id: idButtonCardWhiteboard, isDisabled: true });
-
-            const { idButtonCardFigma } = getGroupButtonCard(idGroupButtonCard.value);
-            updateButtonCardFigma({ id: idButtonCardFigma, isDisabled: true });
-
-            const { idButtonCardGithub } = getGroupButtonCard(idGroupButtonCard.value);
-            updateButtonCardGithub({ id: idButtonCardGithub, isDisabled: true });
         }
     }, { immediate: true });
 
@@ -274,6 +257,14 @@
 
         return classesContainerIcons;
     });
+
+    const classesContainerButtonCard = computed(() => {
+        const classesContainerButtonCard = {};
+
+        classesContainerButtonCard['buttons-card'] = true;
+
+        return classesContainerButtonCard;
+    });
 </script>
 
 <style scoped>
@@ -281,6 +272,7 @@
     .figure {
         display: flex;
         width: 30rem;
+        height: 60rem;
         flex-direction: column;
         border-radius: 0rem 0rem 1.2rem 1.2rem;
         box-shadow: 0rem 0.4rem 0.4rem 0rem rgba(0, 0, 0, 0.25), -0.1px -0.1px 0px 0px #FDFDFD;
@@ -345,5 +337,15 @@
         background: rgba(255, 255, 255, 0.5);
         mix-blend-mode: screen;
         pointer-events: none;
+    }
+
+    .buttons-card {
+        margin-top: auto;
+    }
+
+    @media screen and (min-width: 640px) {
+        .figure {
+            height: auto;
+        }
     }
 </style>
