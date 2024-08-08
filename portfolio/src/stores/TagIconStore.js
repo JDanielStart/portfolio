@@ -387,6 +387,16 @@ export const useTagIcon = defineStore('tagIcon', () => {
             isSelectedMode: false,
             isDisabledMode: false,
             isOnlyReadMode: false,
+        },
+        Wordpress: {
+            name: 'Wordpress',
+            colorShapeLight: 'var(--general-neutral-black-light)',
+            colorShapeDark: '#21759B',
+            colorIconLight: 'var(--general-neutral-white-light)',
+            colorIconDark: 'var(--general-neutral-white-light)',
+            isSelectedMode: false,
+            isDisabledMode: false,
+            isOnlyReadMode: false,
         }
     };
 
@@ -755,6 +765,14 @@ export const useTagIcon = defineStore('tagIcon', () => {
             {
                 ...getStandardTagIcon('Whiteboard'),
                 id: 'Whiteboard',
+                isOnlyRead: true,
+            }
+        );
+
+        createTagIcon(
+            {
+                ...getStandardTagIcon('Wordpress'),
+                id: 'Wordpress',
                 isOnlyRead: true,
             }
         );
