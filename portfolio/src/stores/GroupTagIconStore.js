@@ -64,6 +64,13 @@ export const useGroupTagIcon = defineStore('groupTagIcon', () => {
                 tagIconStore.getTagIcon('Midjourney'),
             ],
         });
+
+        createGroupTagIcon({
+            id: 'touristGC',
+            containerGroupTagIcon: [
+                tagIconStore.getTagIcon('Wordpress'),
+            ],
+        });
     }
 
     init();
