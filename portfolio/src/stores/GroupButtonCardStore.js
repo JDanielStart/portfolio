@@ -45,6 +45,13 @@ export const useGroupButtonCard = defineStore('groupButtonCard', () => {
             idButtonCardFigma: 'Figma',
             idButtonCardGithub: 'Github',
         });
+
+        createGroupButtonCard({
+            id: 'touristGC',
+            idButtonCardWhiteboard: 'touristGC',
+            idButtonCardFigma: 'touristGC',
+            idButtonCardGithub: 'touristGC',
+        });
     }
 
     init();
