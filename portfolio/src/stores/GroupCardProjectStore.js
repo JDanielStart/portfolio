@@ -46,6 +46,7 @@ export const useGroupCardProject = defineStore('groupCardProject', () => {
             id: 'project',
             containerGroupCardProject: [
                 cardProjectStore.getCardProject('portfolio'),
+                cardProjectStore.getCardProject('touristGC'),
             ],
         });
     }
