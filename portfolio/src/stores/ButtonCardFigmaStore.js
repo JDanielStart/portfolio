@@ -1,4 +1,5 @@
 //General imports
+import { get } from 'lodash';
 import { defineStore } from 'pinia';
 import { reactive } from 'vue';
 
@@ -52,6 +53,11 @@ export const useButtonCardFigma = defineStore('buttonCardFigma', () => {
                 window.open('https://www.figma.com/proto/BEfXQKUYuLFqpIFvKOH7nQ/portfolio?node-id=187-39913&t=N4ZO6oc2xsIgrICo-1', '_blank');
                 console.log('ButtonCardFigma clicked');
             }
+        });
+
+        createButtonCardFigma({
+            id: 'touristGC',
+            isDisabled: true
         });
     }
 
