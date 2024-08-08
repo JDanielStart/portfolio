@@ -53,6 +53,11 @@ export const useButtonCardGithub = defineStore('buttonCardGithubFigma', () => {
                 console.log('ButtonCardGithub clicked');
             }
         });
+
+        createButtonCardGithub({
+            id: 'touristGC',
+            isDisabled: true
+        });
     }
 
     init();
