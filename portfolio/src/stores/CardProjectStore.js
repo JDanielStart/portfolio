@@ -10,10 +10,10 @@ export const useCardProject = defineStore('cardProject', () => {
     function createCardProject({
             id = items.size.toString(),
             srcImg = '/imgs/projects/default-project.jpg',
-            colorShapeLight = '',
-            colorShapeDark = '',
-            colorTextLight = '',
-            colorTextDark = '',
+            colorShapeLight = 'var(--general-neutral-white-light)',
+            colorShapeDark = '#2D2B41',
+            colorTextLight = 'var(--general-neutral-900-light)',
+            colorTextDark = 'var(--general-neutral-900-dark)',
             title = '',
             idGroupTagText = '',
             idGroupTagIcon = '',
@@ -61,10 +61,6 @@ export const useCardProject = defineStore('cardProject', () => {
         createCardProject({
             id: 'portfolio',
             srcImg: 'imgs/projects/portfolio.jpg',
-            colorShapeLight: 'var(--general-neutral-white-light)',
-            colorShapeDark: '#2D2B41',
-            colorTextLight: 'var(--general-neutral-900-light)',
-            colorTextDark: 'var(--general-neutral-900-dark)',
             title: 'Portfolio',
             idGroupTagText: 'portfolio',
             idGroupTagIcon: 'portfolio',
@@ -72,6 +68,18 @@ export const useCardProject = defineStore('cardProject', () => {
             click: () => {
                 console.log('click img project');
                 window.open('https://jdanielstart.github.io/portfolio/', '_blank');
+            },
+        });
+
+        createCardProject({
+            id: 'touristGC',
+            srcImg: 'imgs/projects/default-project.jpg',
+            title: 'Tourist GC',
+            idGroupTagText: 'touristGC',
+            idGroupTagIcon: 'touristGC',
+            idGroupButtonCard: 'touristGC',
+            click: () => {
+                console.log('click img project');
             },
         });
     }
