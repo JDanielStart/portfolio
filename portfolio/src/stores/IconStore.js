@@ -568,6 +568,17 @@ export const useIcon = defineStore('icon', () => {
             isOnlyRead: true,
             isDisabled: false,
             click: () => { console.log(`icon ${name} clicked`)},
+        },
+        Wordpress: {
+            name: 'Wordpress',
+            width: '2rem',
+            height: '2rem',
+            viewBox: '-0.5 0 18 18',
+            colorLight: 'var(--general-neutral-white-light)',
+            colorDark: 'var(--general-neutral-white-light)',
+            isOnlyRead: true,
+            isDisabled: false,
+            click: () => { console.log(`icon ${name} clicked`)},
         }
     }
 
