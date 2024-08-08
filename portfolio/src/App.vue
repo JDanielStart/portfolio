@@ -55,7 +55,7 @@
         id="sendEmail" ref="sendEmail"
       >
         <CtaEnd :state="{id: 'end'}"/>
-    </section>
+      </section>
 
     </div>
     
@@ -78,6 +78,8 @@
   import GroupCardProject from './components/groupCards/cardProjects/GroupCardProject.vue';
   import GroupCredential from './components/groupCredentials/GroupCredential.vue';
   import CtaEnd from './components/ctas/CtaEnd.vue';
+  import ButtonCardFigma from './components/buttons/ButtonCardFigma.vue';
+  import ButtonCardGithub from './components/buttons/ButtonCardGithub.vue';
 
   //Stores
   const navigationStore = useNavigation();
