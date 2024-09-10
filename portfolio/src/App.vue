@@ -30,19 +30,19 @@
       </section>
 
       <section
-        :class="classesTechnologySection"
-        id="technology" ref="technology"
-      >
-        <GroupCardTechnology :state="{id: 'technology'}"/>
-      </section>
-
-      <section
         :class="classesProjectSection"
         id="project" ref="project"
       >
         <GroupCardProject :state="{id: 'project'}"/>
       </section>
 
+      <section
+        :class="classesTechnologySection"
+        id="technology" ref="technology"
+      >
+        <GroupCardTechnology :state="{id: 'technology'}"/>
+      </section>
+      
       <section
         :class="classesCredentialSection"
         id="credential" ref="credential"
