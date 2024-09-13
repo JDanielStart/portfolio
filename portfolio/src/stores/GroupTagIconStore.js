@@ -68,7 +68,21 @@ export const useGroupTagIcon = defineStore('groupTagIcon', () => {
         createGroupTagIcon({
             id: 'touristGC',
             containerGroupTagIcon: [
-                tagIconStore.getTagIcon('Wordpress'),
+                tagIconStore.getTagIcon('Spring'),
+                tagIconStore.getTagIcon('Java'),
+                tagIconStore.getTagIcon('Vue'),
+                tagIconStore.getTagIcon('Vite'),
+                tagIconStore.getTagIcon('Npm'),
+                tagIconStore.getTagIcon('Github'),
+                tagIconStore.getTagIcon('Git'),
+                tagIconStore.getTagIcon('LightHouse'),
+                tagIconStore.getTagIcon('GithubCopilot'),
+                tagIconStore.getTagIcon('ChatGPT'),
+                tagIconStore.getTagIcon('Whiteboard'),
+                tagIconStore.getTagIcon('Figma'),
+                tagIconStore.getTagIcon('HTML5'),
+                tagIconStore.getTagIcon('CSS3'),
+                tagIconStore.getTagIcon('JS'),
             ],
         });
     }

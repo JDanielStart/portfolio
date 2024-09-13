@@ -338,6 +338,16 @@ export const useTagIcon = defineStore('tagIcon', () => {
             isDisabledMode: false,
             isOnlyReadMode: false,
         },
+        Spring: {
+            name: 'Spring',
+            colorShapeLight: '#41B883',
+            colorShapeDark: '#41B883',
+            colorIconLight: 'var(--general-neutral-white-light)',
+            colorIconDark: 'var(--general-neutral-white-light)',
+            isSelectedMode: false,
+            isDisabledMode: false,
+            isOnlyReadMode: false,
+        },
         Trello: {
             name: 'Trello',
             colorShapeLight: '#4879BC',
@@ -725,6 +735,14 @@ export const useTagIcon = defineStore('tagIcon', () => {
             {
                 ...getStandardTagIcon('Slack'),
                 id: 'Slack',
+                isOnlyRead: true,
+            }
+        );
+
+        createTagIcon(
+            {
+                ...getStandardTagIcon('Spring'),
+                id: 'Spring',
                 isOnlyRead: true,
             }
         );

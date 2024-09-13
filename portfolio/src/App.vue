@@ -23,13 +23,6 @@
     >
 
       <section
-        :class="classesProfileSection"
-        id="profile" ref="profile"
-      >
-        <CtaStart :state="{id: 'start'}"/>
-      </section>
-
-      <section
         :class="classesProjectSection"
         id="project" ref="project"
       >
@@ -37,10 +30,10 @@
       </section>
 
       <section
-        :class="classesTechnologySection"
-        id="technology" ref="technology"
+        :class="classesSendEmailSection"
+        id="profile" ref="profile"
       >
-        <GroupCardTechnology :state="{id: 'technology'}"/>
+        <CtaEnd :state="{id: 'end'}"/>
       </section>
       
       <section
@@ -51,10 +44,10 @@
       </section>
 
       <section
-        :class="classesSendEmailSection"
+        :class="classesProfileSection"
         id="sendEmail" ref="sendEmail"
       >
-        <CtaEnd :state="{id: 'end'}"/>
+        <CtaStart :state="{id: 'start'}"/>
       </section>
 
     </div>
@@ -74,12 +67,9 @@
   import Hero from './components/heroes/Hero.vue';
   import ButtonLanguage from './components/buttons/ButtonLanguage.vue';
   import CtaStart from './components/ctas/CtaStart.vue';
-  import GroupCardTechnology from './components/groupCards/cardTechnology/GroupCardTechnology.vue';
   import GroupCardProject from './components/groupCards/cardProjects/GroupCardProject.vue';
   import GroupCredential from './components/groupCredentials/GroupCredential.vue';
   import CtaEnd from './components/ctas/CtaEnd.vue';
-  import ButtonCardFigma from './components/buttons/ButtonCardFigma.vue';
-  import ButtonCardGithub from './components/buttons/ButtonCardGithub.vue';
 
   //Stores
   const navigationStore = useNavigation();
@@ -178,14 +168,6 @@
     const classes= {};
 
     classes['profile'] = true;
-
-    return classes;
-  });
-
-  const classesTechnologySection = computed(() => {
-    const classes= {};
-
-    classes['section'] = true;
 
     return classes;
   });

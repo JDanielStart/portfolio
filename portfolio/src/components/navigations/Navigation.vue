@@ -4,36 +4,6 @@
     >
         <a
             :class="classesSection"
-            :aria-label="altProfile"
-            href="#profile"
-        >
-            <div
-                :style="stylesBar0"
-                :class="classesBarStart"
-            />
-            <div
-                :class="classesIcon"
-            >
-                <Icon :state="{id: idIconProfile}"/>
-            </div>
-        </a>
-        <a
-            :class="classesSection"
-            :aria-label="altTechnology"
-            href="#technology"
-        >
-            <div
-                :style="stylesBar1"
-                :class="classesBar"
-            />
-            <div
-                :class="classesIcon"
-            >
-                <Icon :state="{id: idIconCode}"/>
-            </div>
-        </a>
-        <a
-            :class="classesSection"
             :aria-label="altProject"
             href="#project"
         >
@@ -45,6 +15,21 @@
                 :class="classesIcon"
             >
                 <Icon :state="{id: idIconProject}"/>
+            </div>
+        </a>
+        <a
+            :class="classesSection"
+            :aria-label="altProfile"
+            href="#profile"
+        >
+            <div
+                :style="stylesBar0"
+                :class="classesBarStart"
+            />
+            <div
+                :class="classesIcon"
+            >
+                <Icon :state="{id: idIconProfile}"/>
             </div>
         </a>
         <a
@@ -135,7 +120,6 @@
     const isDisabled = computed(() => isDisabledStore.value);
 
     const altProfile = computed(() => getText('Navigation', 'profile'));
-    const altTechnology = computed(() => getText('Navigation', 'technology'));
     const altProject = computed(() => getText('Navigation', 'projects'));
     const altCredential = computed(() => getText('Navigation', 'credential'));
     const altSendEmail = computed(() => getText('Navigation', 'sendEmail'));
@@ -177,47 +161,6 @@
         else {
             updateIcon({
             id: idIconProfile.value,
-            isDisabled: isDisabled.value,
-            });
-        }
-    });
-
-    const idIconCode = ref(null);
-
-    idIconCode.value = createIcon({
-        ...getStandardIcon('Code'),
-        colorLight: colorNotSelectionLight.value,
-        colorDark: colorNotSelectionDark.value,
-        isDisabled: isDisabled.value,
-    });
-
-    watch([
-        selection,
-        isDark,
-        colorSelectionLight,
-        colorSelectionDark,
-        colorNotSelectionLight,
-        colorNotSelectionDark,
-        isDisabled,
-    ], () => {
-        if (!isDisabled.value) {
-            if (selection.value === 'technology') {
-                changeColor(
-                    idIconCode.value, 
-                    colorSelectionLight.value,
-                    colorSelectionDark.value
-                );
-            } else {
-                changeColor(
-                    idIconCode.value, 
-                    colorNotSelectionLight.value,
-                    colorNotSelectionDark.value
-                );
-            }
-        }
-        else {
-            updateIcon({
-            id: idIconCode.value,
             isDisabled: isDisabled.value,
             });
         }

@@ -415,6 +415,17 @@ export const useIcon = defineStore('icon', () => {
             isDisabled: false,
             click: () => { console.log(`icon ${name} clicked`)},
         },
+        Spring: {
+            name: 'Spring',
+            width: '2rem',
+            height: '2rem',
+            viewBox: '2 0 21 21',
+            colorLight: 'var(--general-neutral-white-light)',
+            colorDark: 'var(--general-neutral-white-light)',
+            isOnlyRead: true,
+            isDisabled: false,
+            click: () => { console.log(`icon ${name} clicked`)},
+        },
         Sun: {
             name: 'Sun',
             width: '1.1rem',

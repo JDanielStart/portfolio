@@ -54,7 +54,8 @@ export const useGroupTagText = defineStore('groupTagText', () => {
         createGroupTagText({
             id: 'touristGC',
             containerGroupTagText: [
-                tagTextStore.getTagText('idea'),
+                tagTextStore.getTagText('design'),
+                tagTextStore.getTagText('backend'),
                 tagTextStore.getTagText('ecommerce'),
                 tagTextStore.getTagText('active'),
             ],
